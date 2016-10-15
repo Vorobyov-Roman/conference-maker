@@ -24,8 +24,26 @@ module UserTest
 
   class ValidationTest < ActiveSupport::TestCase
 
+    def messages 
+      {
+        name_too_short: "The name should be at least 5 characters long",
+        name_not_a_word: "The name should only contain letters and spaces",
+        name_space_at_the_end: "The name should not begin or end with a space",
+        name_spaces: "The name should not contain several spaces in a row",
+
+        email_not_a_valid_address: "The email should be a valid address",
+        email_taken: "This email is already taken",
+
+        login_taken: "This login is already taken",
+        login_too_short: "The login should be at least 5 characters long",
+        login_bad_characters: "The login should not contain special characters",
+
+        password_too_short: "The password should be at least 5 characters long"
+      }
+    end
+
     def assert_validation_failure(field, *values)
-      super(@user, field, @expect_message, *values)
+      super(@user, field, @expected_message, *values)
     end
 
     def assert_validation_success(field, *values)
@@ -42,23 +60,7 @@ module UserTest
     end
 
     def expect_message(message_code)
-      @messages ||= {
-        name_too_short: "The name should be at least 5 characters long",
-        name_not_a_word: "The name should only contain letters and spaces",
-        name_space_at_the_end: "The name should not begin or end with a space",
-        name_spaces: "The name should not contain several spaces in a row",
-
-        email_not_a_valid_address: "The email should be a valid address",
-        email_taken: "This email is already taken",
-
-        login_taken: "This login is already taken",
-        login_too_short: "The login should be at least 5 characters long",
-        login_bad_characters: "The login should not contain special characters",
-
-        password_too_short: "The password should be at least 5 characters long"
-      }
-
-      @expected_message = @messages[message_code]
+      @expected_message = messages[message_code]
     end
 
     def setup
@@ -95,7 +97,7 @@ module UserTest
 
 
     test "1.1.4: a name should contain no more than 1 space in a row" do
-      expect_message(:name_several_spaces)
+      expect_message(:name_spaces)
 
       assert_validation_failure(:name, "a  a")
       assert_validation_success(:name, "v a l i d n a m e")
@@ -140,7 +142,7 @@ module UserTest
     test "1.3.3: a login should not contain special characters" do
       expect_message(:login_bad_characters)
 
-      assert_validation_failure(:login, %Q{ `~!@#$%^&*()=+\ |'";:/?.>,< })
+      assert_validation_failure(:login, %Q{`~!@#$%^&*()=+\ |'";:/?.>,<})
       assert_validation_success(:login, "lo_gin", "lo-gin", "lo.gin", "l0gin")
     end
 
