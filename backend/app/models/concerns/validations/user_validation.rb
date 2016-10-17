@@ -4,9 +4,9 @@ module UserValidation
   extend ActiveSupport::Concern
 
   included do
-    UserValidation.name_validations.each { |v| validates :name, v }
-    UserValidation.email_validations.each { |v| validates :email, v }
-    UserValidation.login_validations.each { |v| validates :login, v }
+    UserValidation.name_validations.each     { |v| validates :name, v }
+    UserValidation.email_validations.each    { |v| validates :email, v }
+    UserValidation.login_validations.each    { |v| validates :login, v }
     UserValidation.password_validations.each { |v| validates :password, v }
   end
 
@@ -14,7 +14,7 @@ module UserValidation
     too_short = "The name should be at least %{count} characters long"
     invalid_characters = "The name should only contain letters and spaces"
     space_at_the_end = "The name should not begin or end with a space"
-    spaces_in_a_row = "The name should not contain several spaces in a row"
+    spaces_in_a_row = "The name can only have a single space in a row"
 
     [
       {
