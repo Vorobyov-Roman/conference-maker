@@ -1,4 +1,4 @@
-module ValidationTestHelper
+module ValidationTestHelper  
   def expect_message message
     @message = message
   end

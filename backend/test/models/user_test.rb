@@ -32,7 +32,7 @@ module UserTest
 
     include ValidationTestHelper
 
-    @@MESSAGES = {
+    MESSAGES = {
       name_too_short:       "The name should be at least 5 characters long",
       name_not_a_word:      "The name should only contain letters and spaces",
       name_space_at_edge:   "The name should not begin or end with a space",
@@ -49,7 +49,7 @@ module UserTest
     }
 
     def expect_message message_code
-      super @@MESSAGES[message_code]
+      super MESSAGES[message_code]
     end
 
     def reset_current_user

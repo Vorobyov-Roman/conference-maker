@@ -4,17 +4,17 @@ module UserValidation
   extend ActiveSupport::Concern
 
   included do
-    UserValidation.name_validations.each     { |v| validates :name, v }
-    UserValidation.email_validations.each    { |v| validates :email, v }
-    UserValidation.login_validations.each    { |v| validates :login, v }
-    UserValidation.password_validations.each { |v| validates :password, v }
+    UserValidation.name_validations.each { |v| validates :name, v }
+    validates :email,    UserValidation.email_validation
+    validates :login,    UserValidation.login_validation
+    validates :password, UserValidation.password_validation
   end
 
   def self.name_validations
-    too_short = "The name should be at least %{count} characters long"
+    too_short =          "The name should be at least %{count} characters long"
     invalid_characters = "The name should only contain letters and spaces"
-    space_at_the_end = "The name should not begin or end with a space"
-    spaces_in_a_row = "The name can only have a single space in a row"
+    space_at_the_end =   "The name should not begin or end with a space"
+    spaces_in_a_row =    "The name can only have a single space in a row"
 
     [
       {
@@ -30,39 +30,33 @@ module UserValidation
     ]
   end
 
-  def self.email_validations
+  def self.email_validation
     invalid_address = "The email should be a valid address"
-    taken = "This email is already taken"
+    taken =           "This email is already taken"
 
-    [
-      {
-        format: { with: /\A[^@]+@[^@]+\z/, message: invalid_address },
-        uniqueness: { message: taken }
-      }
-    ]
+    {
+      format: { with: /\A[^@]+@[^@]+\z/, message: invalid_address },
+      uniqueness: { message: taken }
+    }
   end
 
-  def self.login_validations
-    taken = "This login is already taken"
-    too_short = "The login should be at least 5 characters long"
+  def self.login_validation
+    taken =              "This login is already taken"
+    too_short =          "The login should be at least 5 characters long"
     invalid_characters = "The login should not contain special characters"
 
-    [
-      {
-        uniqueness: { message: taken },
-        length: { minimum: 5, too_short: too_short },
-        format: { with: /[a-zA-Z0-9\-_]+/, message: invalid_characters }
-      }
-    ]
+    {
+      uniqueness: { message: taken },
+      length: { minimum: 5, too_short: too_short },
+      format: { with: /[a-zA-Z0-9\-_]+/, message: invalid_characters }
+    }
   end
 
-  def self.password_validations
+  def self.password_validation
     too_short = "The password should be at least 5 characters long"
 
-    [
-      {
-        length: { minimum: 5, too_short: too_short }
-      }
-    ]
+    {
+      length: { minimum: 5, too_short: too_short }
+    }
   end
 end

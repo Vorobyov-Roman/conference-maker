@@ -23,7 +23,7 @@ module ConferenceTest
 
     include ValidationTestHelper
 
-    @@MESSAGES = {
+    MESSAGES = {
       title_empty: "The title should not be empty",
       title_taken: "This title is already taken",
 
@@ -31,7 +31,7 @@ module ConferenceTest
     }
 
     def expect_message message_code
-      super @@MESSAGES[message_code]
+      super MESSAGES[message_code]
     end
 
     def reset_current_conference
@@ -67,7 +67,7 @@ module ConferenceTest
       assert_validation_success :title
 
       reset_current_conference
-      assert_validation_success :title
+      assert_validation_failure :title
     end
 
 
