@@ -20,9 +20,7 @@ require 'validation_test_helper'
     1.4.1 should be at least 5 characters long
 
 2 Associations
-  2.1 Conference
-    2.1.1 should be a many-to-many association
-    2.1.2 should be inverse of conference's organizers
+  2.1 Can have many organized conferences
 
 =end
 
@@ -158,7 +156,14 @@ module UserTest
 
 
 
-  class AssociationTest < ActiveSupport::TestCase
+  class AssociationsTest < ActiveSupport::TestCase
+
+    test "2.1: can have many organized conferences" do
+      organized_conferences = users(:illuminati).organized_conferences
+
+      assert_includes organized_conferences, conferences(:trump_rally)
+      assert_includes organized_conferences, conferences(:hillary_rally)
+    end
 
   end
 

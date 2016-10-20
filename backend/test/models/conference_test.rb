@@ -10,10 +10,8 @@ require 'validation_test_helper'
   1.2 Description
     1.2.1 should not be empty
 
-2 Association
-  2.1 Organizer
-    2.1.1 should be a many-to-many association
-    2.1.2 should be inverse of user's organized conferences
+2 Associations
+  2.1 can have many organizers
 
 =end
 
@@ -82,9 +80,14 @@ module ConferenceTest
 
 
 
-  class AssociationTest < ActiveSupport::TestCase
+  class AssociationsTest < ActiveSupport::TestCase
 
+    test "2.1: can have many organizers" do
+      organizers = conferences(:trump_rally).organizers
 
+      assert_includes organizers, users(:illuminati)
+      assert_includes organizers, users(:trump)
+    end
 
   end
 
