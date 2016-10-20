@@ -1,14 +1,13 @@
-require 'active_support/concern'
+module Validations::UserValidation
 
-module UserValidation
-  extend ActiveSupport::Concern
-
-  included do
-    UserValidation.name_validations.each { |v| validates :name, v }
-    validates :email,    UserValidation.email_validation
-    validates :login,    UserValidation.login_validation
-    validates :password, UserValidation.password_validation
+  def self.included mixee
+    name_validations.each { |v| mixee.validates :name, v }
+    mixee.validates :email,    email_validation
+    mixee.validates :login,    login_validation
+    mixee.validates :password, password_validation
   end
+
+private
 
   def self.name_validations
     too_short =          "The name should be at least %{count} characters long"
@@ -59,4 +58,5 @@ module UserValidation
       length: { minimum: 5, too_short: too_short }
     }
   end
+
 end

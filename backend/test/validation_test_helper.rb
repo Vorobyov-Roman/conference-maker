@@ -1,4 +1,5 @@
 module ValidationTestHelper  
+
   def expect_message message
     @message = message
   end
@@ -22,6 +23,7 @@ module ValidationTestHelper
   end
 
 private
+
   def check_validation field, *values
     if values.empty?
       @record.save
@@ -46,4 +48,5 @@ private
   def messages_mismatch field
     "Error messages mismatch for #{@record.class} #{field}"
   end
+
 end

@@ -3,15 +3,18 @@ illuminati:
   email: zog@world.com
   login: world_order
   password: tinfoil
+  organized_conferences: trump_rally, hillary_rally
 
-hilary:
+hillary:
   name: Hillary Clinton
   email: public@domain.com
   login: killallmen42
   password: "12345"
+  organized_conferences: hillary_rally
 
 trump:
   name: Donald Trump
   email: wall@builder.com
   login: trumperino
   password: small_loan
+  organized_conferences: trump_rally

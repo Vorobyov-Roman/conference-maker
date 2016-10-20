@@ -23,6 +23,9 @@ gem 'puma', '~> 3.0'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+
+  # Allows the log messages to be more distinguishable by coloring the output
+  gem 'colorize'
 end
 
 group :development do

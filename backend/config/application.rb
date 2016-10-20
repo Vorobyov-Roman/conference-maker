@@ -27,7 +27,9 @@ module Backend
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
-    # Load validation concerns
-    config.autoload_paths << "#{Rails.root}/app/models/concerns/validations"
+    # Load concerns
+    Dir["#{Rails.root}/app/models/concerns/*"].each do |concern_path|
+      config.autoload_paths << concern_path
+    end
   end
 end
