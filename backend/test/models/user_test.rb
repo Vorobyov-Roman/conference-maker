@@ -71,12 +71,14 @@ module UserTest
     end
 
 
+
     test "1.1.1: a name should be at least 5 characters long" do
       expect_message :name_too_short
 
       assert_validation_failure :name, nil, "", "aaaa"
       assert_validation_success :name, "validname"
     end
+
 
 
     test "1.1.2: a name should only contain letters and spaces" do
@@ -87,11 +89,13 @@ module UserTest
     end
 
 
+
     test "1.1.3: a name should not begin or end with a space" do
       expect_message :name_space_at_edge
 
       assert_validation_failure :name, " ", " a", "a ", " a "
     end
+
 
 
     test "1.1.4: a name should contain no more than 1 space in a row" do
@@ -102,12 +106,14 @@ module UserTest
     end
 
 
+
     test "1.2.1: an email should be a valid address" do
       expect_message :email_invalid
 
       assert_validation_failure :email, "", " ", "invalid", "i@val@d"
       assert_validation_success :email, "valid@email"
     end
+
 
 
     test "1.2.2: an email should be unique" do
@@ -119,6 +125,8 @@ module UserTest
       assert_validation_failure :email
     end
 
+
+
     test "1.3.1: a login should be unique" do
       expect_message :login_taken
 
@@ -129,6 +137,7 @@ module UserTest
     end
 
 
+
     test "1.3.2: a login should be at least 5 characters long" do
       expect_message :login_too_short
 
@@ -137,12 +146,14 @@ module UserTest
     end
 
 
+
     test "1.3.3: a login should not contain special characters" do
       expect_message :login_bad_characters
 
       assert_validation_failure :login, %Q{`~!@#$%^&*()=+\ |'";:/?.>,<}
       assert_validation_success :login, "lo_gin", "lo-gin", "lo.gin", "l0gin"
     end
+
 
 
     test "1.4.1: a password should be at least 5 characters long" do

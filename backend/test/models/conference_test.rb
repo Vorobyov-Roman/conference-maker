@@ -51,12 +51,14 @@ module ConferenceTest
     end
 
 
+
     test "1.1.1: a title should not be empty" do
       expect_message :title_empty
 
       assert_validation_failure :title, nil, ""
       assert_validation_success :title, "valid title"
     end
+
 
 
     test "1.1.2: a title should be unique" do
@@ -67,6 +69,7 @@ module ConferenceTest
       reset_current_conference
       assert_validation_failure :title
     end
+
 
 
     test "1.2.1 a description should not be empty" do
