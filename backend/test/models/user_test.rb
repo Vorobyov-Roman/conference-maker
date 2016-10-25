@@ -20,7 +20,8 @@ require 'validation_test_helper'
     1.4.1 should be at least 5 characters long
 
 2 Associations
-  2.1 Can have many organized conferences
+  2.1 should have many organized conferences
+  2.2 should have many moderated topics
 
 =end
 
@@ -51,13 +52,11 @@ module UserTest
     end
 
     def reset_current_user
-      reset_current_record do
-        User.new do |u|
-          u.name     = "valid name"
-          u.email    = "valid@email"
-          u.login    = "valid_login"
-          u.password = "valid_password"
-        end
+      reset_current_record User do |u|
+        u.name     = "valid name"
+        u.email    = "valid@email"
+        u.login    = "valid_login"
+        u.password = "valid_password"
       end
     end
 
@@ -169,11 +168,20 @@ module UserTest
 
   class AssociationsTest < ActiveSupport::TestCase
 
-    test "2.1: can have many organized conferences" do
+    test "2.1: should have many organized conferences" do
       organized_conferences = users(:illuminati).organized_conferences
 
       assert_includes organized_conferences, conferences(:trump_rally)
       assert_includes organized_conferences, conferences(:hillary_rally)
+    end
+
+
+
+    test "2.2: should have many moderated topics" do
+      #plural name implies a collection
+      moderated_topics = users(:billy).moderated_topics
+
+      assert_includes moderated_topics, topics(:wall_building)
     end
 
   end

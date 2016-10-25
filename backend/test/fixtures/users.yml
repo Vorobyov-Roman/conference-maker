@@ -4,6 +4,7 @@ illuminati:
   login: world_order
   password: tinfoil
   organized_conferences: trump_rally, hillary_rally
+  moderated_topics: []
 
 hillary:
   name: Hillary Clinton
@@ -11,6 +12,7 @@ hillary:
   login: killallmen42
   password: "12345"
   organized_conferences: hillary_rally
+  moderated_topics: []
 
 trump:
   name: Donald Trump
@@ -18,3 +20,12 @@ trump:
   login: trumperino
   password: small_loan
   organized_conferences: trump_rally
+  moderated_topics: []
+
+billy:
+  name: Billy
+  email: what@mail.com
+  login: billy
+  password: billy
+  organized_conferences: []
+  moderated_topics: wall_building

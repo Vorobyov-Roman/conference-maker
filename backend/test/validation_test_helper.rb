@@ -4,8 +4,8 @@ module ValidationTestHelper
     @message = message
   end
 
-  def reset_current_record
-    @record = yield
+  def reset_current_record model
+    @record = model.new &Proc.new
   end
 
   def assert_validation_failure field, *values

@@ -1,11 +1,5 @@
 module Associations::ConferencesOrganizers
 
-  def self.association_for target
-    self.send :"association_for_#{target.name.underscore}", target
-  end
-
-private
-
   def self.association_for_user target
     params = {
       class_name:  "Conference",

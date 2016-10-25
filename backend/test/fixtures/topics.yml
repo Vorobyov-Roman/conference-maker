@@ -1,0 +1,11 @@
+wall_building:
+  title: How to build a wall.
+  description: Pros and cons of a wall.
+  conference: trump_rally
+  moderators: billy
+
+china:
+  title: China!
+  description: China?
+  conference: trump_rally
+  moderators: []
