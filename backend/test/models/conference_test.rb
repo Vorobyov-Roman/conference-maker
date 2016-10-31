@@ -12,8 +12,9 @@ require 'association_test_helper'
     1.2.1 should not be empty
 
 2 Associations
-  2.1 should have many organizers
-  2.2 should have many topics
+  2.1 should belong to a single creator
+  2.2 should have many organizers
+  2.3 should have many topics
 
 =end
 
@@ -38,6 +39,8 @@ module ConferenceTest
       reset_current_record Conference do |c|
         c.title =       "valid title"
         c.description = "valid description"
+
+        c.creator = users(:illuminati)
       end
     end
 
@@ -87,16 +90,26 @@ module ConferenceTest
 
     include AssociationTestHelper
 
-    test "2.1: should have many organizers" do
+    test "2.1: should belong to a single creator" do
+      creator = users(:illuminati)
+
+      assert_equal conferences(:trump_rally).creator, creator
+
+      assert_inverse_of_many creator, :created_conferences, :creator
+    end
+
+
+
+    test "2.2: should have many organizers" do
+      # plural name implies a collection
       organizers = conferences(:trump_rally).organizers
 
-      assert_includes organizers, users(:illuminati)
       assert_includes organizers, users(:trump)
     end
 
 
 
-    test "2.2: should have many topics" do
+    test "2.3: should have many topics" do
       conference_topics = conferences(:trump_rally).topics
 
       assert_includes conference_topics, topics(:wall_building)

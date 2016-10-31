@@ -20,8 +20,9 @@ require 'validation_test_helper'
     1.4.1 should be at least 5 characters long
 
 2 Associations
-  2.1 should have many organized conferences
-  2.2 should have many moderated topics
+  2.1 should have many created conferences
+  2.2 should have many organized conferences
+  2.3 should have many moderated topics
 
 =end
 
@@ -168,16 +169,25 @@ module UserTest
 
   class AssociationsTest < ActiveSupport::TestCase
 
-    test "2.1: should have many organized conferences" do
-      organized_conferences = users(:illuminati).organized_conferences
+    test "2.1: should have many created conferences" do
+      created_conferences = users(:illuminati).created_conferences
 
-      assert_includes organized_conferences, conferences(:trump_rally)
-      assert_includes organized_conferences, conferences(:hillary_rally)
+      assert_includes created_conferences, conferences(:trump_rally)
+      assert_includes created_conferences, conferences(:hillary_rally)
     end
 
 
 
-    test "2.2: should have many moderated topics" do
+    test "2.2: should have many organized conferences" do
+      # plural name implies a collection
+      organized_conferences = users(:trump).organized_conferences
+
+      assert_includes organized_conferences, conferences(:trump_rally)
+    end
+
+
+
+    test "2.3: should have many moderated topics" do
       #plural name implies a collection
       moderated_topics = users(:billy).moderated_topics
 
