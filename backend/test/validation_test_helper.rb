@@ -9,16 +9,16 @@ module ValidationTestHelper
   end
 
   def assert_validation_failure field, *values
-    check_validation field, *values do |field, value|
-      assert_not @record.valid?, validity_check_failure(false, value, field)
+    check_validation field, *values do |value|
+      assert_not @record.valid?, validity_check_failure(value, field)
 
       assert_includes @record.errors[field], @message, messages_mismatch(field)
     end
   end
 
   def assert_validation_success field, *values
-    check_validation field, *values do |field, value|
-      assert @record.valid?, validity_check_failure(true, value, field)
+    check_validation field, *values do |value|
+      assert @record.valid?, @record.errors.to_xml
     end
   end
 
@@ -28,21 +28,20 @@ private
     if values.empty?
       @record.save
 
-      yield field, "default test value"
+      yield "default test value"
     end
 
     values.each do |value|
       @record.assign_attributes field => value
       @record.save
 
-      yield field, value
+      yield value
     end
   end
 
   # Custom assertion failure messages
-  def validity_check_failure should_be_valid, value, field
-    expectation = should_be_valid ? "to be" : "to not be"
-    "'#{value}' expected #{expectation} a valid #{@record.class} #{field}"
+  def validity_check_failure value, field
+    "'#{value}' expected to be an invalid #{@record.class} #{field}"
   end
 
   def messages_mismatch field

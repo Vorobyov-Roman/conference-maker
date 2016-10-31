@@ -9,28 +9,30 @@ module Associations
   end
 
   def self.declare_associations_for target
-    get_association self, target
+    get_association target, self
   end
 
 private
 
-  def self.get_association source, target
+  def self.get_association target, source
     source.send :"association_for_#{target.name.underscore}", target
   end
 
   def self.association_for_user target
-    get_association ConferencesOrganizers, target
-    get_association TopicsModerators, target
+    get_association target, ConferencesCreator
+    get_association target, ConferencesOrganizers
+    get_association target, TopicsModerators
   end
 
   def self.association_for_conference target
-    get_association ConferencesOrganizers, target
-    get_association ConferenceTopics, target
+    get_association target, ConferencesCreator
+    get_association target, ConferencesOrganizers
+    get_association target, ConferenceTopics
   end
 
   def self.association_for_topic target
-    get_association ConferenceTopics, target
-    get_association TopicsModerators, target
+    get_association target, ConferenceTopics
+    get_association target, TopicsModerators
   end
   
 end

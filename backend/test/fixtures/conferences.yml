@@ -1,9 +1,11 @@
 trump_rally:
   title: Trump Rally
   description: Make America great again!
-  organizers: illuminati, trump
+  creator: illuminati
+  organizers: trump
 
 hillary_rally:
   title: Hillary Rally
   description: Don't let Trump win!
-  organizers: illuminati, hillary
+  creator: illuminati
+  organizers: hillary

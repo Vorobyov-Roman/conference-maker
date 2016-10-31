@@ -93,7 +93,7 @@ module TopicTest
     include AssociationTestHelper
 
     test "2.1: should have many moderators" do
-      #plural form implies a collection
+      # plural form implies a collection
       moderators = topics(:wall_building).moderators
 
       assert_includes moderators, users(:billy)

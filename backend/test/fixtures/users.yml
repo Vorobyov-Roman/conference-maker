@@ -3,7 +3,7 @@ illuminati:
   email: zog@world.com
   login: world_order
   password: tinfoil
-  organized_conferences: trump_rally, hillary_rally
+  organized_conferences: []
   moderated_topics: []
 
 hillary:
