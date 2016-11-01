@@ -9,26 +9,24 @@ require 'test_helper'
 2 Adding an organizer
   2.1 should check if the issuer is the creator
   2.2 should add the user to the organizers
+  2.3 should not add the user if they are already an organizer
 
 3 Removing an organizer
   3.1 should check if the issuer is the creator
   3.2 should remove the user from the organizers
+  3.3 should not remove the user if they are not an organizer
 
 =end
 
 class ConferenceManagerTest < ActiveSupport::TestCase
 
-  def reset_current_user user
+  def reset_current_manager user
     @current_user = user
-  end
-
-  def reset_current_manager
     @manager = ConferenceManager.new @current_user
   end
 
   def setup
-    reset_current_user users(:illuminati)
-    reset_current_manager
+    reset_current_manager users(:illuminati)
   end
 
   def teardown
@@ -57,13 +55,13 @@ class ConferenceManagerTest < ActiveSupport::TestCase
 
 
   test "2.1: should check if the issuer is the creator" do
-    reset_current_user users(:bernie)
+    reset_current_manager users(:bernie)
 
-    assert_nothing_thrown do
+    assert_nothing_raised do
       @manager.add_organizers conferences(:bernie_rally), users(:billy)
     end
 
-    assert_throws InsufficientPermissions do
+    assert_raises InsufficientPermissions do
       @manager.add_organizers conferences(:hillary_rally), users(:billy)
     end
   end
@@ -82,12 +80,25 @@ class ConferenceManagerTest < ActiveSupport::TestCase
 
 
 
+  test "2.3: should not add the user if they are already an organizer" do
+    conference = conferences(:trump_rally)
+    user = users(:trump)
+
+    before_count = conference.organizers.count
+    
+    @manager.add_organizers conference, user
+
+    assert_equal conference.organizers.count, before_count
+  end
+
+
+
   test "3.1: should check if the issuer is the creator" do
-    assert_nothing_thrown do
+    assert_nothing_raised do
       @manager.remove_organizers conferences(:trump_rally), users(:trump)
     end
 
-    assert_throws InsufficientPermissions do
+    assert_raises InsufficientPermissions do
       @manager.add_organizers conferences(:bernie_rally), users(:bernie)
     end
   end
@@ -98,10 +109,23 @@ class ConferenceManagerTest < ActiveSupport::TestCase
     conference = conferences(:trump_rally)
     user = users(:trump)
 
-    @manager.remove_organizers conferences(:trump_rally), users(:trump)
+    @manager.remove_organizers conference, user
 
     assert_not_includes conference.organizers, user
     assert_not_includes user.organized_conferences, conference
+  end
+
+
+
+  test "3.3: should not remove the user if they are not an organizer" do
+    conference = conferences(:trump_rally)
+    user = users(:billy)
+
+    before_count = conference.organizers.count
+
+    @manager.remove_organizers conference, user
+
+    assert_equal conference.organizers.count, before_count
   end
 
 end

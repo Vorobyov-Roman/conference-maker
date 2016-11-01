@@ -12,6 +12,9 @@ require "action_cable/engine"
 # require "sprockets/railtie"
 require "rails/test_unit/railtie"
 
+# Load exceptions in every file
+require_relative "../lib/exceptions"
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -31,11 +34,6 @@ module Backend
     # Load concerns
     Dir["#{Rails.root}/app/models/concerns/*"].each do |concern_path|
       config.autoload_paths << concern_path
-    end
-
-    # Load services
-    Dir["#{Rails.root}/app/services/*"].each do |service_path|
-      config.autoload_paths << service_path
     end
 
   end
