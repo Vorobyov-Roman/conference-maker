@@ -9,3 +9,9 @@ hillary_rally:
   description: Don't let Trump win!
   creator: illuminati
   organizers: hillary
+
+bernie_rally:
+  title: Bernie Rally
+  description: Hello?
+  creator: bernie
+  organizers: bernie

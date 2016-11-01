@@ -4,7 +4,7 @@ class ConferenceManager
     @issuer = issuer
   end
 
-  def organize_conference params
+  def create_conference params
   end
 
   def add_organizer conference, user

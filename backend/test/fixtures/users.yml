@@ -22,6 +22,14 @@ trump:
   organized_conferences: trump_rally
   moderated_topics: []
 
+bernie:
+  name: Bernie Sanders
+  email: bernie@sanders.com
+  login: bernie_sanders
+  password: "12345"
+  organized_conferences: bernie_rally
+  moderated_topics: []
+
 billy:
   name: Billy
   email: what@mail.com
