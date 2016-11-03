@@ -1,17 +1,23 @@
-trump_rally:
-  title: Trump Rally
-  description: Make America great again!
-  creator: illuminati
-  organizers: trump
+first:
+  title: first
+  description: first
+  creator: first
+  organizers: second, third
 
-hillary_rally:
-  title: Hillary Rally
-  description: Don't let Trump win!
-  creator: illuminati
-  organizers: hillary
+second:
+  title: second
+  description: second
+  creator: first
+  organizers: fourth
 
-bernie_rally:
-  title: Bernie Rally
-  description: Hello?
-  creator: bernie
-  organizers: bernie
+third:
+  title: third
+  description: third
+  creator: second
+  organizers: third, fourth
+
+fourth:
+  title: fourth
+  description: fourth
+  creator: second
+  organizers: third

@@ -1,11 +1,47 @@
-wall_building:
-  title: How to build a wall.
-  description: Pros and cons of a wall.
-  conference: trump_rally
-  moderators: billy
+first:
+  title: first
+  description: first
+  conference: first
+  moderators: fourth
 
-china:
-  title: China!
-  description: China?
-  conference: trump_rally
-  moderators: []
+second:
+  title: second
+  description: second
+  conference: first
+  moderators: fourth
+
+third:
+  title: third
+  description: third
+  conference: second
+  moderators: third
+
+fourth:
+  title: fourth
+  description: fourth
+  conference: second
+  moderators: sixth
+
+fifth:
+  title: fifth
+  description: fifth
+  conference: third
+  moderators: first
+
+sixth:
+  title: sixth
+  description: sixth
+  conference: third
+  moderators: first, fifth
+
+seventh:
+  title: seventh
+  description: seventh
+  conference: fourth
+  moderators: fifth
+
+eight:
+  title: eight
+  description: eight
+  conference: fourth
+  moderators: sixth

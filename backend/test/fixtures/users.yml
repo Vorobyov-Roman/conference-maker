@@ -1,39 +1,47 @@
-illuminati:
-  name: Illuminati
-  email: zog@world.com
-  login: world_order
-  password: tinfoil
+first:
+  name: first
+  email: first@user.com
+  login: first
+  password: qwerty
   organized_conferences: []
+  moderated_topics: fifth, sixth
+
+second:
+  name: second
+  email: second@user.com
+  login: second
+  password: qwerty
+  organized_conferences: first
   moderated_topics: []
 
-hillary:
-  name: Hillary Clinton
-  email: public@domain.com
-  login: killallmen42
-  password: "12345"
-  organized_conferences: hillary_rally
-  moderated_topics: []
+third:
+  name: third
+  email: third@user.com
+  login: third
+  password: qwerty
+  organized_conferences: first, third, fourth
+  moderated_topics: third
 
-trump:
-  name: Donald Trump
-  email: wall@builder.com
-  login: trumperino
-  password: small_loan
-  organized_conferences: trump_rally
-  moderated_topics: []
+fourth:
+  name: fourth
+  email: fourth@user.com
+  login: fourth
+  password: qwerty
+  organized_conferences: second, third
+  moderated_topics: first, second
 
-bernie:
-  name: Bernie Sanders
-  email: bernie@sanders.com
-  login: bernie_sanders
-  password: "12345"
-  organized_conferences: bernie_rally
-  moderated_topics: []
-
-billy:
-  name: Billy
-  email: what@mail.com
-  login: billy
-  password: billy
+fifth:
+  name: fifth
+  email: fifth@user.com
+  login: fifth
+  password: qwerty
   organized_conferences: []
-  moderated_topics: wall_building
+  moderated_topics: sixth, seventh
+
+sixth:
+  name: sixth
+  email: sixth@user.com
+  login: sixth
+  password: qwerty
+  organized_conferences: []
+  moderated_topics: fourth, eighth

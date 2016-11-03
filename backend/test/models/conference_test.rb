@@ -40,7 +40,7 @@ module ConferenceTest
         c.title =       "valid title"
         c.description = "valid description"
 
-        c.creator = users(:illuminati)
+        c.creator = users(:first)
       end
     end
 
@@ -55,7 +55,7 @@ module ConferenceTest
 
 
 
-    test "1.1.1: a title should not be empty" do
+    test "1.1.1 a title should not be empty" do
       expect_message :title_empty
 
       assert_validation_failure :title, nil, ""
@@ -64,7 +64,7 @@ module ConferenceTest
 
 
 
-    test "1.1.2: a title should be unique" do
+    test "1.1.2 a title should be unique" do
       expect_message :title_taken
 
       assert_validation_success :title
@@ -90,30 +90,30 @@ module ConferenceTest
 
     include AssociationTestHelper
 
-    test "2.1: should belong to a single creator" do
-      creator = users(:illuminati)
+    test "2.1 should belong to a single creator" do
+      creator = users(:first)
 
-      assert_equal conferences(:trump_rally).creator, creator
+      assert_equal conferences(:first).creator, creator
 
       assert_inverse_of_many creator, :created_conferences, :creator
     end
 
 
 
-    test "2.2: should have many organizers" do
-      # plural name implies a collection
-      organizers = conferences(:trump_rally).organizers
+    test "2.2 should have many organizers" do
+      organizers = conferences(:first).organizers
 
-      assert_includes organizers, users(:trump)
+      assert_includes organizers, users(:second)
+      assert_includes organizers, users(:third)
     end
 
 
 
-    test "2.3: should have many topics" do
-      conference_topics = conferences(:trump_rally).topics
+    test "2.3 should have many topics" do
+      conference_topics = conferences(:first).topics
 
-      assert_includes conference_topics, topics(:wall_building)
-      assert_includes conference_topics, topics(:china)
+      assert_includes conference_topics, topics(:first)
+      assert_includes conference_topics, topics(:second)
     end
 
   end

@@ -72,7 +72,7 @@ module UserTest
 
 
 
-    test "1.1.1: a name should be at least 5 characters long" do
+    test "1.1.1 a name should be at least 5 characters long" do
       expect_message :name_too_short
 
       assert_validation_failure :name, nil, "", "aaaa"
@@ -81,7 +81,7 @@ module UserTest
 
 
 
-    test "1.1.2: a name should only contain letters and spaces" do
+    test "1.1.2 a name should only contain letters and spaces" do
       expect_message :name_not_a_word
 
       assert_validation_failure :name, "0_-"
@@ -90,7 +90,7 @@ module UserTest
 
 
 
-    test "1.1.3: a name should not begin or end with a space" do
+    test "1.1.3 a name should not begin or end with a space" do
       expect_message :name_space_at_edge
 
       assert_validation_failure :name, " ", " a", "a ", " a "
@@ -98,7 +98,7 @@ module UserTest
 
 
 
-    test "1.1.4: a name should contain no more than 1 space in a row" do
+    test "1.1.4 a name should contain no more than 1 space in a row" do
       expect_message :name_spaces
 
       assert_validation_failure :name, "a  a"
@@ -107,7 +107,7 @@ module UserTest
 
 
 
-    test "1.2.1: an email should be a valid address" do
+    test "1.2.1 an email should be a valid address" do
       expect_message :email_invalid
 
       assert_validation_failure :email, "", " ", "invalid", "i@val@d"
@@ -116,7 +116,7 @@ module UserTest
 
 
 
-    test "1.2.2: an email should be unique" do
+    test "1.2.2 an email should be unique" do
       expect_message :email_taken
 
       assert_validation_success :email
@@ -127,7 +127,7 @@ module UserTest
 
 
 
-    test "1.3.1: a login should be unique" do
+    test "1.3.1 a login should be unique" do
       expect_message :login_taken
 
       assert_validation_success :login
@@ -138,7 +138,7 @@ module UserTest
 
 
 
-    test "1.3.2: a login should be at least 5 characters long" do
+    test "1.3.2 a login should be at least 5 characters long" do
       expect_message :login_too_short
 
       assert_validation_failure :login, nil, "", "aaaa"
@@ -147,7 +147,7 @@ module UserTest
 
 
 
-    test "1.3.3: a login should not contain special characters" do
+    test "1.3.3 a login should not contain special characters" do
       expect_message :login_bad_characters
 
       assert_validation_failure :login, %Q{`~!@#$%^&*()=+\ |'";:/?.>,<}
@@ -156,7 +156,7 @@ module UserTest
 
 
 
-    test "1.4.1: a password should be at least 5 characters long" do
+    test "1.4.1 a password should be at least 5 characters long" do
       expect_message :password_too_short
 
       assert_validation_failure :password, nil, "", "aaaa"
@@ -169,29 +169,29 @@ module UserTest
 
   class AssociationsTest < ActiveSupport::TestCase
 
-    test "2.1: should have many created conferences" do
-      created_conferences = users(:illuminati).created_conferences
+    test "2.1 should have many created conferences" do
+      created_conferences = users(:first).created_conferences
 
-      assert_includes created_conferences, conferences(:trump_rally)
-      assert_includes created_conferences, conferences(:hillary_rally)
+      assert_includes created_conferences, conferences(:first)
+      assert_includes created_conferences, conferences(:second)
     end
 
 
 
-    test "2.2: should have many organized conferences" do
-      # plural name implies a collection
-      organized_conferences = users(:trump).organized_conferences
+    test "2.2 should have many organized conferences" do
+      organized_conferences = users(:fourth).organized_conferences
 
-      assert_includes organized_conferences, conferences(:trump_rally)
+      assert_includes organized_conferences, conferences(:second)
+      assert_includes organized_conferences, conferences(:third)
     end
 
 
 
-    test "2.3: should have many moderated topics" do
-      #plural name implies a collection
-      moderated_topics = users(:billy).moderated_topics
+    test "2.3 should have many moderated topics" do
+      moderated_topics = users(:fourth).moderated_topics
 
-      assert_includes moderated_topics, topics(:wall_building)
+      assert_includes moderated_topics, topics(:first)
+      assert_includes moderated_topics, topics(:second)
     end
 
   end
