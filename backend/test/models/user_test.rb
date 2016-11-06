@@ -24,6 +24,14 @@ require 'validation_test_helper'
   2.2 should have many organized conferences
   2.3 should have many moderated topics
 
+3 Privileges
+    3.1 can create a conference
+    3.2 can assign organizers if they are the creator
+    3.3 can remove organizers if they are the creator
+    3.4 can create a topic if they are an organizer
+    3.5 can assign moderators if they are an organizer
+    3.6 can remove moderators if they are an organizer
+
 =end
 
 module UserTest
@@ -192,6 +200,90 @@ module UserTest
 
       assert_includes moderated_topics, topics(:first)
       assert_includes moderated_topics, topics(:second)
+    end
+
+  end
+
+
+
+  class PrivilegeTest < ActiveSupport::TestCase
+
+    def teardown
+      Conference.delete_all
+      Topic.delete_all
+      Rails.cache.clear
+    end
+
+
+
+    test "3.1 can create a conference" do
+      params = { title: "title", description: "description" }
+
+      assert_nothing_raised do
+        users(:first).create_conference params
+      end
+    end
+
+
+
+    test "3.2 can assign organizers if they are the creator" do
+      assert_raises UserIsNotTheCreator do
+        users(:first).assign_organizers conferences(:third), users(:first)
+      end
+
+      assert_nothing_raised do
+        users(:first).assign_organizers conferences(:first), users(:first)
+      end
+    end
+
+
+
+    test "3.3 can remove organizers if they are the creator" do
+      assert_raises UserIsNotTheCreator do
+        users(:first).assign_organizers conferences(:third), users(:third)
+      end
+
+      assert_nothing_raised do
+        users(:first).assign_organizers conferences(:first), users(:third)
+      end
+    end
+
+
+
+    test "3.4 can create a topic if they are an organizer" do
+      params = { title: "title", description: "description" }
+
+      assert_raises UserIsNotAnOrganizer do
+        users(:second).create_topic conferences(:second), params
+      end
+
+      assert_nothing_raised do
+        users(:second).create_topic conferences(:first), params
+      end
+    end
+
+
+
+    test "3.5 can assign moderators if they are an organizer" do
+      assert_raises UserIsNotAnOrganizer do
+        users(:second).assign_moderators topics(:third), users(:first)
+      end
+
+      assert_nothing_raised do
+        users(:second).assign_moderators topics(:first), users(:first)
+      end
+    end
+
+
+
+    test "3.6 can remove moderators if they are an organizer" do
+      assert_raises UserIsNotAnOrganizer do
+        users(:second).assign_moderators topics(:third), users(:third)
+      end
+
+      assert_nothing_raised do
+        users(:second).assign_moderators topics(:first), users(:fourth)
+      end
     end
 
   end

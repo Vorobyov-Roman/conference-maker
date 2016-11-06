@@ -7,14 +7,12 @@ require 'test_helper'
   1.2 should set the issuer as the creator
 
 2 Adding an organizer
-  2.1 should check if the issuer is the creator
-  2.2 should add the user to the organizers
-  2.3 should not add the user if they are already an organizer
+  2.1 should add the user to the organizers
+  2.2 should not add the user if they are already an organizer
 
 3 Removing an organizer
-  3.1 should check if the issuer is the creator
-  3.2 should remove the user from the organizers
-  3.3 should not remove the user if they are not an organizer
+  3.1 should remove the user from the organizers
+  3.2 should not remove the user if they are not an organizer
 
 =end
 
@@ -22,7 +20,7 @@ class ConferenceManagerTest < ActiveSupport::TestCase
 
   def reset_current_manager user
     @current_user = user
-    @manager = ConferenceManager.new @current_user
+    @manager = ConferenceManager.new
   end
 
   def setup
@@ -38,7 +36,7 @@ class ConferenceManagerTest < ActiveSupport::TestCase
 
   test "1.1 should create a new conference" do
     params = { title: "title", description: "description" }
-    conference = @manager.create_conference params
+    conference = @manager.create_conference @current_user, params
 
     assert_includes Conference.all, conference
   end
@@ -47,26 +45,14 @@ class ConferenceManagerTest < ActiveSupport::TestCase
 
   test "1.2 should set the issuer as the creator" do
     params = { title: "title", description: "description" }
-    conference = @manager.create_conference params
+    conference = @manager.create_conference @current_user, params
 
     assert_equal conference.creator, @current_user
   end
 
 
 
-  test "2.1 should check if the issuer is the creator" do
-    assert_raises InsufficientPermissions do
-      @manager.add_organizers conferences(:third), users(:fifth)
-    end
-
-    assert_nothing_raised do
-      @manager.add_organizers conferences(:first), users(:fifth)
-    end
-  end
-
-
-
-  test "2.2 should add the user to the organizers" do
+  test "2.1 should add the user to the organizers" do
     conference = conferences(:first)
     user = users(:fifth)
     
@@ -78,7 +64,7 @@ class ConferenceManagerTest < ActiveSupport::TestCase
 
 
 
-  test "2.3 should not add the user if they are already an organizer" do
+  test "2.2 should not add the user if they are already an organizer" do
     conference = conferences(:first)
     user = users(:second)
 
@@ -91,19 +77,7 @@ class ConferenceManagerTest < ActiveSupport::TestCase
 
 
 
-  test "3.1 should check if the issuer is the creator" do
-    assert_raises InsufficientPermissions do
-      @manager.remove_organizers conferences(:third), users(:second)
-    end
-
-    assert_nothing_raised do
-      @manager.remove_organizers conferences(:first), users(:second)
-    end
-  end
-
-
-
-  test "3.2 should remove the user from the organizers" do
+  test "3.1 should remove the user from the organizers" do
     conference = conferences(:first)
     user = users(:second)
 
@@ -115,7 +89,7 @@ class ConferenceManagerTest < ActiveSupport::TestCase
 
 
 
-  test "3.3 should not remove the user if they are not an organizer" do
+  test "3.2 should not remove the user if they are not an organizer" do
     conference = conferences(:first)
     user = users(:fourth)
 

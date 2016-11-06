@@ -3,31 +3,24 @@ require 'test_helper'
 =begin
 
 1 Creating a topic
-  1.1 should check if the user is organizer
-  1.2 should create a new topic
-  1.3 should set the conference as the topic's conference
+  1.1 should create a new topic
+  1.2 should set the conference as the topic's conference
 
 2 Adding a moderator
-  2.1 should check if the topic's conference is organized by the issuer
-  2.2 should add the user to the moderators
-  2.3 should not add the user if they are already a moderator
+  2.1 should add the user to the moderators
+  2.2 should not add the user if they are already a moderator
 
 3 Removing a moderator
-  3.1 should check if the issuer is the topic's conference organizer
-  3.2 should remove the user from the moderators
-  3.3 should not remove the user if they are not a moderator
+  3.1 should remove the user from the moderators
+  3.2 should not remove the user if they are not a moderator
 
 =end
 
 class TopicManagerTest < ActiveSupport::TestCase
 
-  def params
-    { title: "title", description: "description" }
-  end
-
   def reset_current_manager user
     @current_user = user
-    @manager = TopicManager.new @current_user
+    @manager = TopicManager.new
   end
 
   def setup
@@ -41,19 +34,8 @@ class TopicManagerTest < ActiveSupport::TestCase
 
 
 
-  test "1.1 should check if the user is organizer" do
-    assert_raises InsufficientPermissions do
-      @manager.create_topic conferences(:first), params
-    end
-
-    assert_nothing_raised do
-      @manager.create_topic conferences(:second), params
-    end
-  end
-
-
-
-  test "1.2 should create a new topic" do
+  test "1.1 should create a new topic" do
+    params = { title: "title", description: "description" }
     topic = @manager.create_topic conferences(:second), params
 
     assert_includes Topic.all, topic
@@ -61,7 +43,8 @@ class TopicManagerTest < ActiveSupport::TestCase
 
 
 
-  test "1.3 should set the conference as the topic's conference" do
+  test "1.2 should set the conference as the topic's conference" do
+    params = { title: "title", description: "description" }
     topic = @manager.create_topic conferences(:second), params
 
     assert_equal topic.conference, conferences(:second)
@@ -70,19 +53,7 @@ class TopicManagerTest < ActiveSupport::TestCase
 
 
 
-  test "2.1 should check if the issuer is the topic's conference organizer" do
-    assert_raises InsufficientPermissions do
-      @manager.add_moderators topics(:second), users(:second)
-    end
-
-    assert_nothing_raised do
-      @manager.add_moderators topics(:third), users(:second)
-    end
-  end
-
-
-
-  test "2.2 should add the user to the moderators" do
+  test "2.1 should add the user to the moderators" do
     topic = topics(:third)
     user = users(:second)
 
@@ -94,7 +65,7 @@ class TopicManagerTest < ActiveSupport::TestCase
 
 
 
-  test "2.3 should not add the user if they are already a moderator" do
+  test "2.2 should not add the user if they are already a moderator" do
     topic = topics(:third)
     user = users(:third)
 
@@ -107,19 +78,7 @@ class TopicManagerTest < ActiveSupport::TestCase
 
 
 
-  test "3.1 should check if the issuer is the topic's conference organizer" do
-    assert_raises InsufficientPermissions do
-      @manager.remove_moderators topics(:seventh), users(:fifth)
-    end
-
-    assert_nothing_raised do
-      @manager.remove_moderators topics(:third), users(:third)
-    end
-  end
-
-
-
-  test "3.2 should remove the user from the moderators" do
+  test "3.1 should remove the user from the moderators" do
     topic = topics(:third)
     user = users(:third)
 
@@ -131,7 +90,7 @@ class TopicManagerTest < ActiveSupport::TestCase
 
 
 
-  test "3.3 should not remove the user if they are not a moderator" do
+  test "3.2 should not remove the user if they are not a moderator" do
     topic = topics(:third)
     user = users(:second)
 
