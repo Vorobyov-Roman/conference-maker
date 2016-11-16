@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161031210507) do
+ActiveRecord::Schema.define(version: 20161116133242) do
+
+  create_table "applications", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "sender_id"
+    t.index ["sender_id"], name: "index_applications_on_sender_id"
+  end
 
   create_table "conferences", force: :cascade do |t|
     t.string   "title"
@@ -31,6 +40,18 @@ ActiveRecord::Schema.define(version: 20161031210507) do
     t.integer "topic_id",     null: false
     t.integer "moderator_id", null: false
     t.index ["topic_id", "moderator_id"], name: "index_moderators_topics_on_topic_id_and_moderator_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer  "status",         default: 0
+    t.text     "comment"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "application_id"
+    t.integer  "reviewer_id"
+    t.index ["application_id"], name: "index_reviews_on_application_id"
+    t.index ["reviewer_id", "application_id"], name: "index_reviews_on_reviewer_id_and_application_id"
+    t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"
   end
 
   create_table "topics", force: :cascade do |t|

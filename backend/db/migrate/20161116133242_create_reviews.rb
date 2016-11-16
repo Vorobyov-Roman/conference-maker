@@ -5,10 +5,10 @@ class CreateReviews < ActiveRecord::Migration[5.0]
       t.text :comment
       t.timestamps
 
-      t.references :author, foreign_key: { to_table: :users }
+      t.references :application, foreign_key: { to_table: :applications }
       t.references :reviewer, foreign_key: { to_table: :users }
 
-      t.index [:reviewer_id, :author_id]
+      t.index [:reviewer_id, :application_id]
     end
   end
 end
