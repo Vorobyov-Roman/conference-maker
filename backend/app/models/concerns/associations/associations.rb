@@ -24,42 +24,46 @@ private
 
   def self.associations_for_user
     [
-      ConferencesCreator,    # has many created conferences
-      ConferencesOrganizers, # has many organized conferences
-      TopicsModerators,      # has many moderated topics
-      SenderApplications,    # has many send applications
-      ReviewerReviews,       # has many reviews
-      ApplicationsReviewers  # has many reviewed applications
+      ConferencesCreator,       # has many created conferences
+      ConferencesOrganizers,    # has many organized conferences
+      TopicsModerators,         # has many moderated topics
+      SenderApplications,       # has many send applications
+      ReviewerReviews,          # has many reviews
+      ApplicationsReviewers     # has many reviewed applications
     ]
   end
 
   def self.associations_for_conference
     [
-      ConferencesCreator,    # belongs to one creator
-      ConferencesOrganizers, # has many organizers
-      ConferenceTopics       # has many topics
+      ConferencesCreator,       # belongs to one creator
+      ConferencesOrganizers,    # has many organizers
+      ConferenceTopics,         # has many topics
+      ConferencesApplications   # has many applications
     ]
   end
 
   def self.associations_for_topic
     [
-      ConferenceTopics,      # belongs to one conference
-      TopicsModerators       # has many moderators
+      ConferenceTopics,         # belongs to one conference
+      TopicsModerators,         # has many moderators
+      ApplicationsTopic         # has many applications
     ]
   end
 
   def self.associations_for_application
     [
-      SenderApplications,    # belongs to one sender
-      ApplicationReviews,    # has many reviews
-      ApplicationsReviewers  # has many reviewers
+      SenderApplications,       # belongs to one sender
+      ApplicationsTopic,        # references one topic
+      ConferencesApplications,  # references one conference
+      ApplicationReviews,       # has many reviews
+      ApplicationsReviewers     # has many reviewers
     ]
   end
 
   def self.associations_for_review
     [
-      ReviewerReviews,       # belongs to one review
-      ApplicationReviews     # belongs to one application
+      ReviewerReviews,          # belongs to one review
+      ApplicationReviews        # belongs to one application
     ]
   end
   

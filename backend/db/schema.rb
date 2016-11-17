@@ -10,14 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161116133242) do
+ActiveRecord::Schema.define(version: 20161117174011) do
 
   create_table "applications", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.integer  "sender_id"
+    t.integer  "conference_id"
+    t.index ["conference_id"], name: "index_applications_on_conference_id"
     t.index ["sender_id"], name: "index_applications_on_sender_id"
   end
 
