@@ -13,8 +13,10 @@ require 'association_test_helper'
 
 2 Associations
   2.1 should belong to a single sender
-  2.2 should have many reviews
-  2.3 should have many reviewers
+  2.2 should reference a single topic
+  2.3 should reference a single conference
+  2.4 should have many reviews
+  2.5 should have many reviewers
 
 =end
 
@@ -53,6 +55,21 @@ module ApplicationTest
       Rails.cache.clear
     end
 
+
+
+    test "1.1.1 a title should not be empty" do
+    end
+
+
+
+    test "1.1.2 a title should be unique within a conference" do
+    end
+
+
+
+    test "1.2.1 a description should not be empty" do
+    end
+
   end
 
 
@@ -60,6 +77,29 @@ module ApplicationTest
   class AssociationsTest < ActiveSupport::TestCase
 
     include AssociationTestHelper
+
+    test "2.1 should belong to a single sender" do
+    end
+
+
+
+    test "2.2 should reference a single topic" do
+    end
+
+
+
+    test "2.3 should reference a single conference" do
+    end
+
+
+
+    test "2.4 should have many reviews" do
+    end
+
+
+
+    test "2.5 should have many reviewers" do
+    end
 
   end
 

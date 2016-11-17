@@ -23,6 +23,9 @@ require 'validation_test_helper'
   2.1 should have many created conferences
   2.2 should have many organized conferences
   2.3 should have many moderated topics
+  2.4 should have many sent applications
+  2.5 should have many reviews
+  2.6 should have many reviewed applications
 
 3 Privileges
     3.1 can create a conference
@@ -200,6 +203,21 @@ module UserTest
 
       assert_includes moderated_topics, topics(:first)
       assert_includes moderated_topics, topics(:second)
+    end
+
+
+
+    test "2.4 should have many sent applications" do
+    end
+
+
+
+    test "2.5 should have many reviews" do
+    end
+
+
+
+    test "2.6 should have many reviewed applications" do
     end
 
   end

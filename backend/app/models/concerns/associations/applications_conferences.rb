@@ -1,4 +1,4 @@
-module Associations::ConferencesApplications
+module Associations::ApplicationsConferences
 
   def self.association_for_application target
     target.references :conference, through: :topic

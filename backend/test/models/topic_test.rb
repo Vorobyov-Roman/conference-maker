@@ -12,8 +12,9 @@ require 'association_test_helper'
     1.2.1 should not be empty
 
 2 Associations
-  2.1 should have many moderators
-  2.2 should belong to a single conference
+  2.1 should belong to a single conference
+  2.2 should have many moderators
+  2.3 should have many applications
 
 =end
 
@@ -92,7 +93,17 @@ module TopicTest
 
     include AssociationTestHelper
 
-    test "2.1 should have many moderators" do
+    test "2.1 should belong to a single conference" do
+      conference = conferences(:first)
+
+      assert_equal topics(:first).conference, conference
+
+      assert_inverse_of_many conference, :topics, :conference
+    end
+
+
+
+    test "2.2 should have many moderators" do
       moderators = topics(:sixth).moderators
 
       assert_includes moderators, users(:first)
@@ -101,12 +112,7 @@ module TopicTest
 
 
 
-    test "2.2 should belong to a single conference" do
-      conference = conferences(:first)
-
-      assert_equal topics(:first).conference, conference
-
-      assert_inverse_of_many conference, :topics, :conference
+    test "2.3 should have many applications" do
     end
 
   end

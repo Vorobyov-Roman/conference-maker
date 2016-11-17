@@ -15,6 +15,7 @@ require 'association_test_helper'
   2.1 should belong to a single creator
   2.2 should have many organizers
   2.3 should have many topics
+  2.4 should have many applications
 
 =end
 
@@ -114,6 +115,11 @@ module ConferenceTest
 
       assert_includes conference_topics, topics(:first)
       assert_includes conference_topics, topics(:second)
+    end
+
+
+
+    test "2.4 should have many applications" do
     end
 
   end

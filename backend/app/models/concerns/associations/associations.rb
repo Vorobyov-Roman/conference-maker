@@ -27,7 +27,7 @@ private
       ConferencesCreator,       # has many created conferences
       ConferencesOrganizers,    # has many organized conferences
       TopicsModerators,         # has many moderated topics
-      SenderApplications,       # has many send applications
+      SenderApplications,       # has many sent applications
       ReviewerReviews,          # has many reviews
       ApplicationsReviewers     # has many reviewed applications
     ]
@@ -38,7 +38,7 @@ private
       ConferencesCreator,       # belongs to one creator
       ConferencesOrganizers,    # has many organizers
       ConferenceTopics,         # has many topics
-      ConferencesApplications   # has many applications
+      ApplicationsConferences   # has many applications
     ]
   end
 
@@ -54,7 +54,7 @@ private
     [
       SenderApplications,       # belongs to one sender
       ApplicationsTopic,        # references one topic
-      ConferencesApplications,  # references one conference
+      ApplicationsConferences,  # references one conference
       ApplicationReviews,       # has many reviews
       ApplicationsReviewers     # has many reviewers
     ]
@@ -62,8 +62,8 @@ private
 
   def self.associations_for_review
     [
-      ReviewerReviews,          # belongs to one review
-      ApplicationReviews        # belongs to one application
+      ReviewerReviews,          # references one reviewer
+      ApplicationReviews        # references one application
     ]
   end
   
