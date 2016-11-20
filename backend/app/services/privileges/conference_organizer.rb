@@ -32,5 +32,5 @@ module Privileges
     end
 
   end
-  
+
 end

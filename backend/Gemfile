@@ -29,6 +29,9 @@ group :development, :test do
 
   # Allows the log messages to be more distinguishable by coloring the output
   gem 'colorize'
+
+  # Ease up the creation of models
+  gem 'factory_girl'
 end
 
 group :development do

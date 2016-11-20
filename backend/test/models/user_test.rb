@@ -56,119 +56,79 @@ module UserTest
       password_too_short:   "The password should be at least 5 characters long"
     }
 
-    def expect_message message_code
-      super MESSAGES[message_code]
-    end
-
-    def reset_current_user
-      reset_current_record User do |u|
-        u.name     = "valid name"
-        u.email    = "valid@email"
-        u.login    = "valid_login"
-        u.password = "valid_password"
-      end
-    end
-
-    def setup
-      reset_current_user
-    end
-
-    def teardown
-      User.delete_all
-      Rails.cache.clear
-    end
-
 
 
     test "1.1.1 a name should be at least 5 characters long" do
-      expect_message :name_too_short
-
-      assert_validation_failure :name, nil, "", "aaaa"
-      assert_validation_success :name, "validname"
+      assert_invalid :name, MESSAGES[:name_too_short], nil, "", "aaaa"
+      assert_valid :name, "aaaaa"
     end
 
 
 
     test "1.1.2 a name should only contain letters and spaces" do
-      expect_message :name_not_a_word
-
-      assert_validation_failure :name, "0_-"
-      assert_validation_success :name, "valid name"
+      assert_invalid :name, MESSAGES[:name_not_a_word], "0_-"
+      assert_valid :name, "valid name"
     end
 
 
 
     test "1.1.3 a name should not begin or end with a space" do
-      expect_message :name_space_at_edge
-
-      assert_validation_failure :name, " ", " a", "a ", " a "
+      assert_invalid :name, MESSAGES[:name_space_at_edge], " a", "a "
     end
 
 
 
     test "1.1.4 a name should contain no more than 1 space in a row" do
-      expect_message :name_spaces
-
-      assert_validation_failure :name, "a  a"
-      assert_validation_success :name, "v a l i d n a m e"
+      assert_invalid :name, MESSAGES[:name_spaces], "a  a"
+      assert_valid :name, "v a l i d n a m e"
     end
 
 
 
     test "1.2.1 an email should be a valid address" do
-      expect_message :email_invalid
-
-      assert_validation_failure :email, "", " ", "invalid", "i@val@d"
-      assert_validation_success :email, "valid@email"
+      assert_invalid :email, MESSAGES[:email_invalid], "", "invalid", "i@val@d"
+      assert_valid :email, "valid@email"
     end
 
 
 
     test "1.2.2 an email should be unique" do
-      expect_message :email_taken
+      using strategy: :create
+      assert_valid :email, "dummy@gmail.com"
 
-      assert_validation_success :email
-
-      reset_current_user
-      assert_validation_failure :email
+      using strategy: :build
+      assert_invalid :email, MESSAGES[:email_taken], "dummy@gmail.com"
     end
 
 
 
     test "1.3.1 a login should be unique" do
-      expect_message :login_taken
+      using strategy: :create
+      assert_valid :login, "dummy_login"
 
-      assert_validation_success :login
-
-      reset_current_user
-      assert_validation_failure :login
+      using strategy: :build
+      assert_invalid :login, MESSAGES[:login_taken], "dummy_login"
     end
 
 
 
     test "1.3.2 a login should be at least 5 characters long" do
-      expect_message :login_too_short
-
-      assert_validation_failure :login, nil, "", "aaaa"
-      assert_validation_success :login, "validlogin"
+      assert_invalid :login, MESSAGES[:login_too_short], nil, "", "aaaa"
+      assert_valid :login, "validlogin"
     end
 
 
 
     test "1.3.3 a login should not contain special characters" do
-      expect_message :login_bad_characters
-
-      assert_validation_failure :login, %Q{`~!@#$%^&*()=+\ |'";:/?.>,<}
-      assert_validation_success :login, "lo_gin", "lo-gin", "lo.gin", "l0gin"
+      assert_invalid :login, MESSAGES[:login_bad_characters], %Q{`~!@#$%^&*()=+}
+      assert_valid :login, "lo_gin", "lo-gin", "lo.gin", "l0gin"
     end
 
 
 
     test "1.4.1 a password should be at least 5 characters long" do
-      expect_message :password_too_short
-
-      assert_validation_failure :password, nil, "", "aaaa"
-      assert_validation_success :password, "validpassword"
+      assert_invalid :password, MESSAGES[:password_too_short], nil, "", "aaaa"
+      assert_valid :password, "validpassword"
     end
 
   end
@@ -178,28 +138,22 @@ module UserTest
   class AssociationsTest < ActiveSupport::TestCase
 
     test "2.1 should have many created conferences" do
-      created_conferences = users(:first).created_conferences
-
-      assert_includes created_conferences, conferences(:first)
-      assert_includes created_conferences, conferences(:second)
+      user = build :creator, conferences_count: 2
+      assert user.created_conferences.size, 2
     end
 
 
 
     test "2.2 should have many organized conferences" do
-      organized_conferences = users(:fourth).organized_conferences
-
-      assert_includes organized_conferences, conferences(:second)
-      assert_includes organized_conferences, conferences(:third)
+      user = build :organizer, conferences_count: 3
+      assert user.organized_conferences.size, 3
     end
 
 
 
     test "2.3 should have many moderated topics" do
-      moderated_topics = users(:fourth).moderated_topics
-
-      assert_includes moderated_topics, topics(:first)
-      assert_includes moderated_topics, topics(:second)
+      user = build :moderator, topics_count: 4
+      assert user.moderated_topics.count, 4
     end
 
   end
@@ -208,81 +162,115 @@ module UserTest
 
   class PrivilegeTest < ActiveSupport::TestCase
 
-    def teardown
-      Conference.delete_all
-      Topic.delete_all
-      Rails.cache.clear
+    class FakeBasicUser < Privileges::BasicUser
+      def create_conference params; end
+    end
+
+    class FakeConferenceCreator < Privileges::ConferenceCreator
+      def assign_organizers *users; end
+      def remove_organizer *users; end
+    end
+
+    class FakeConferenceOrganizer < Privileges::ConferenceOrganizer
+      def create_topic conference, params; end
+      def assign_moderators topic, *users; end
+      def remove_moderators topic, *users; end
+    end
+
+    def new_user factory = :user, params = {}
+      user = create factory, params
+
+      def user.basic_user_wrapper; FakeBasicUser end
+      def user.conference_creator_wrapper; FakeConferenceCreator end
+      def user.conference_organizer_wrapper; FakeConferenceOrganizer end
+
+      user
+    end
+
+    def user
+      @user ||= new_user
     end
 
 
 
     test "3.1 can create a conference" do
-      params = { title: "title", description: "description" }
-
       assert_nothing_raised do
-        users(:first).create_conference params
+        user.create_conference nil
       end
     end
 
 
 
     test "3.2 can assign organizers if they are the creator" do
+      conference1 = create :conference
+      conference2 = create :conference, creator: user
+
       assert_raises UserIsNotTheCreator do
-        users(:first).assign_organizers conferences(:third), users(:first)
+        user.assign_organizers conference1, nil
       end
 
       assert_nothing_raised do
-        users(:first).assign_organizers conferences(:first), users(:first)
+        user.assign_organizers conference2, nil
       end
     end
 
 
 
     test "3.3 can remove organizers if they are the creator" do
+      conference1 = create :conference
+      conference2 = create :conference, creator: user
+
       assert_raises UserIsNotTheCreator do
-        users(:first).assign_organizers conferences(:third), users(:third)
+        user.assign_organizers conference1, nil
       end
 
       assert_nothing_raised do
-        users(:first).assign_organizers conferences(:first), users(:third)
+        user.assign_organizers conference2, nil
       end
     end
 
 
 
     test "3.4 can create a topic if they are an organizer" do
-      params = { title: "title", description: "description" }
+      conference1 = create :conference
+      conference2 = create :conference, organizers: [user]
 
       assert_raises UserIsNotAnOrganizer do
-        users(:second).create_topic conferences(:second), params
+        user.create_topic conference1, nil
       end
 
       assert_nothing_raised do
-        users(:second).create_topic conferences(:first), params
+        user.create_topic conference2, nil
       end
     end
 
 
 
     test "3.5 can assign moderators if they are an organizer" do
+      topic1 = create :topic
+      topic2 = create :topic, conference: build(:conference, organizers: [user])
+
       assert_raises UserIsNotAnOrganizer do
-        users(:second).assign_moderators topics(:third), users(:first)
+        user.assign_moderators topic1, nil
       end
 
       assert_nothing_raised do
-        users(:second).assign_moderators topics(:first), users(:first)
+        user.assign_moderators topic2, nil
       end
     end
 
 
 
     test "3.6 can remove moderators if they are an organizer" do
+      topic1 = create :topic
+      topic2 = create :topic, conference: build(:conference, organizers: [user])
+
       assert_raises UserIsNotAnOrganizer do
-        users(:second).assign_moderators topics(:third), users(:third)
+        user.assign_moderators topic1, nil
       end
 
       assert_nothing_raised do
-        users(:second).assign_moderators topics(:first), users(:fourth)
+        user.assign_moderators topic2, nil
       end
     end
 

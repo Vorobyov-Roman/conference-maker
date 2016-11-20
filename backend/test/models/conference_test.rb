@@ -1,6 +1,5 @@
 require 'test_helper'
 require 'validation_test_helper'
-require 'association_test_helper'
 
 =begin
 
@@ -31,55 +30,28 @@ module ConferenceTest
       description_empty: "The description should not be empty"
     }
 
-    def expect_message message_code
-      super MESSAGES[message_code]
-    end
-
-    def reset_current_conference
-      reset_current_record Conference do |c|
-        c.title =       "valid title"
-        c.description = "valid description"
-
-        c.creator = users(:first)
-      end
-    end
-
-    def setup
-      reset_current_conference
-    end
-
-    def teardown
-      Conference.delete_all
-      Rails.cache.clear
-    end
-
 
 
     test "1.1.1 a title should not be empty" do
-      expect_message :title_empty
-
-      assert_validation_failure :title, nil, ""
-      assert_validation_success :title, "valid title"
+      assert_invalid :title, MESSAGES[:title_empty], nil, ""
+      assert_valid :title, "valid title"
     end
 
 
 
     test "1.1.2 a title should be unique" do
-      expect_message :title_taken
+      using strategy: :create
+      assert_valid :title, "dummy title"
 
-      assert_validation_success :title
-
-      reset_current_conference
-      assert_validation_failure :title
+      using strategy: :build
+      assert_invalid :title, MESSAGES[:title_taken], "dummy title"
     end
 
 
 
     test "1.2.1 a description should not be empty" do
-      expect_message :description_empty
-
-      assert_validation_failure :description, nil, ""
-      assert_validation_success :description, "valid description"
+      assert_invalid :description, MESSAGES[:description_empty], nil, ""
+      assert_valid :description, "valid description"
     end
 
   end
@@ -88,32 +60,25 @@ module ConferenceTest
 
   class AssociationsTest < ActiveSupport::TestCase
 
-    include AssociationTestHelper
-
     test "2.1 should belong to a single creator" do
-      creator = users(:first)
+      user = build :user
+      conference = build :conference, creator: user
 
-      assert_equal conferences(:first).creator, creator
-
-      assert_inverse_of_many creator, :created_conferences, :creator
+      assert_same conference.creator, user
     end
 
 
 
     test "2.2 should have many organizers" do
-      organizers = conferences(:first).organizers
-
-      assert_includes organizers, users(:second)
-      assert_includes organizers, users(:third)
+      conference = build :conference, organizers_count: 2
+      assert conference.organizers.size, 2
     end
 
 
 
     test "2.3 should have many topics" do
-      conference_topics = conferences(:first).topics
-
-      assert_includes conference_topics, topics(:first)
-      assert_includes conference_topics, topics(:second)
+      conference = build :conference, topics_count: 3
+      assert conference.topics.size, 3
     end
 
   end

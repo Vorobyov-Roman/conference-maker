@@ -36,6 +36,9 @@ module Backend
       config.autoload_paths << concern_path
     end
 
+    # Load factories
+    FactoryGirl.find_definitions
+
   end
 
 end
