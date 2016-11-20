@@ -1,6 +1,5 @@
 require 'test_helper'
 require 'validation_test_helper'
-require 'association_test_helper'
 
 =begin
 
@@ -33,28 +32,6 @@ module ApplicationTest
       description_empty: "The description should not be empty"
     }
 
-    def expect_message message_code
-      super MESSAGES[message_code]
-    end
-
-    def reset_current_application
-      reset_current_record Application do |c|
-        c.title =       "valid title"
-        c.description = "valid description"
-
-        c.sender = users(:first)
-      end
-    end
-
-    def setup
-      reset_current_application
-    end
-
-    def teardown
-      Application.delete_all
-      Rails.cache.clear
-    end
-
 
 
     test "1.1.1 a title should not be empty" do
@@ -75,8 +52,6 @@ module ApplicationTest
 
 
   class AssociationsTest < ActiveSupport::TestCase
-
-    include AssociationTestHelper
 
     test "2.1 should belong to a single sender" do
     end

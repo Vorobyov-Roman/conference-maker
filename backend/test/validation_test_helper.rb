@@ -1,51 +1,51 @@
-module ValidationTestHelper  
+module ValidationTestHelper
 
-  def expect_message message
-    @message = message
-  end
+  def self.included base
+    base.class_eval do
+      def initialize args
+        super args
 
-  def reset_current_record model
-    @record = model.new &Proc.new
-  end
+        /(?<model>.+)Test/ =~ "#{self}".deconstantize
 
-  def assert_validation_failure field, *values
-    check_validation field, *values do |value|
-      assert_not @record.valid?, validity_check_failure(value, field)
-
-      assert_includes @record.errors[field], @message, messages_mismatch(field)
+        @factory = model.downcase.to_sym
+        @strategy = :build
+        @params = {}
+      end
     end
   end
 
-  def assert_validation_success field, *values
-    check_validation field, *values do |value|
-      assert @record.valid?, @record.errors.to_xml
+  def using params
+    @strategy = params.delete(:strategy) { @strategy }
+    @params.merge! params
+  end
+
+
+
+  def assert_invalid field, message, *values
+    check_validity_of field, values do |record, value|
+      assert_not record.valid?
+      assert_includes record.errors[field], message
+    end
+  end
+
+  def assert_valid field, *values
+    check_validity_of field, values do |record, value|
+      assert record.valid?
     end
   end
 
 private
 
-  def check_validation field, *values
-    if values.empty?
-      @record.save
+  def new_record params
+    self.send @strategy, @factory, params.merge(@params)
+  end
 
-      yield "default test value"
-    end
-
+  def check_validity_of field, values
     values.each do |value|
-      @record.assign_attributes field => value
-      @record.save
+      record = new_record field => value
 
-      yield value
+      yield record, value
     end
-  end
-
-  # Custom assertion failure messages
-  def validity_check_failure value, field
-    "'#{value}' expected to be an invalid #{@record.class} #{field}"
-  end
-
-  def messages_mismatch field
-    "Error messages mismatch for #{@record.class} #{field}"
   end
 
 end
