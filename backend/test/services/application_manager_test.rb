@@ -11,43 +11,31 @@ require 'test_helper'
 
 class ApplicationManagerTest < ActiveSupport::TestCase
 
-  def get_manager
-    fake_manager = ApplicationManager.new
-
-    def fake_manager.create_application params = {}
-      FactoryGirl.create :application, params
-    end
-
-    fake_manager
-  end
-
-  def manager
-    @manager ||= get_manager
+  def setup
+    @manager     ||= Managers::ApplicationManager.new FactoryGirl
+    @user        ||= build :user
+    @topic       ||= build :topic
+    @application ||= @manager.create_application @user, @topic, {}
   end
 
 
 
   test "1.1 should create a new topic" do
-    application = manager.create_application
-    assert_includes Application.all, application
+    assert_includes Application.all, @application
   end
 
 
 
   test "1.2 should set the issuer as the application's sender" do
-    user = build :user
-    application = manager.create_application sender: user
-
-    assert_same user, application.sender
+    assert_same @user, @application.sender
+    assert_includes @user.sent_applications, @application
   end
 
 
 
   test "1.3 should set the application's topic" do
-    topic = build :topic
-    application = manager.create_application topic: topic
-
-    assert_same topic, application.topic
+    assert_same @topic, @application.topic
+    assert_includes @topic.applications, @application
   end
 
 end

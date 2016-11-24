@@ -9,4 +9,10 @@ class ApplicationRecord < ActiveRecord::Base
     subclass.include Associations
   end
 
+protected
+
+  def factory
+    ModelsFactory.new
+  end
+
 end

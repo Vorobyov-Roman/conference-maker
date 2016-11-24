@@ -3,3 +3,5 @@ class InsufficientPermissions < StandardError; end
   class UserIsNotAnOrganizer < InsufficientPermissions; end
 
 class UnspecifiedFactory < StandardError; end
+
+class UnknownStrategy < StandardError; end

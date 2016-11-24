@@ -18,85 +18,63 @@ require 'test_helper'
 
 class ConferenceManagerTest < ActiveSupport::TestCase
 
-  def get_manager
-    fake_manager = ConferenceManager.new
-
-    def fake_manager.create_conference params = {}
-      FactoryGirl.create :conference, params
-    end
-
-    fake_manager
-  end
-
-  def manager
-    @manager ||= get_manager
+  def setup
+    @manager    ||= Managers::ConferenceManager.new FactoryGirl
+    @creator    ||= build :user
+    @user1        = build :user
+    @user2        = build :user
+    @conference   = @manager.create_conference @creator, organizers: [@user2]
   end
 
 
 
   test "1.1 should create a new conference" do
-    conference = manager.create_conference
-    assert conference
+    assert_includes Conference.all, @conference
   end
 
 
 
   test "1.2 should set the issuer as the creator" do
-    user = create :user
-    conference = manager.create_conference creator: user
-
-    assert_equal conference.creator, user
-    assert_includes user.created_conferences, conference
+    assert_same @creator, @conference.creator
+    assert_includes @creator.created_conferences, @conference
   end
 
 
 
   test "2.1 should add the user to the organizers" do
-    conference = create :conference
-    user = create :user
+    @manager.add_organizers @conference, @user1
 
-    manager.add_organizers conference, user
-
-    assert_includes conference.organizers, user
-    assert_includes user.organized_conferences, conference
+    assert_includes @conference.organizers, @user1
+    assert_includes @user1.organized_conferences, @conference
   end
 
 
 
   test "2.2 should not add the user if they are already an organizer" do
-    user = create :user
-    conference = create :conference, organizers: [user]
+    assert_equal 1, @conference.organizers.count
 
-    before_count = conference.organizers.count
+    @manager.add_organizers @conference, @user2
 
-    manager.add_organizers conference, user
-
-    assert_equal conference.organizers.count, before_count
+    assert_equal 1, @conference.organizers.count
   end
 
 
 
   test "3.1 should remove the user from the organizers" do
-    user = create :user
-    conference = create :conference, organizers: [user]
+    @manager.remove_organizers @conference, @user2
 
-    manager.remove_organizers conference, user
-
-    assert_not_includes conference.organizers, user
-    assert_not_includes user.organized_conferences, conference
+    assert_not_includes @conference.organizers, @user2
+    assert_not_includes @user2.organized_conferences, @conference
   end
 
 
 
   test "3.2 should not remove the user if they are not an organizer" do
-    conference = create :conference
-    user = create :user
+    assert_equal 1, @conference.organizers.count
 
-    before_count = conference.organizers.count
+    @manager.remove_organizers @conference, @user1
 
-    manager.remove_organizers conference, user
-
-    assert_equal conference.organizers.count, before_count
+    assert_equal 1, @conference.organizers.count
   end
 
 end

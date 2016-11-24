@@ -192,20 +192,20 @@ module UserTest
 
     class FakeConferenceCreator < Privileges::ConferenceCreator
       def assign_organizers *users; end
-      def remove_organizer *users; end
+      def remove_organizer  *users; end
     end
 
     class FakeConferenceOrganizer < Privileges::ConferenceOrganizer
-      def create_topic conference, params; end
-      def assign_moderators topic, *users; end
-      def remove_moderators topic, *users; end
+      def create_topic      conference, params; end
+      def assign_moderators topic, *users;      end
+      def remove_moderators topic, *users;      end
     end
 
-    def new_user factory = :user, params = {}
-      user = create factory, params
+    def new_user
+      user = build :user
 
-      def user.basic_user_wrapper; FakeBasicUser end
-      def user.conference_creator_wrapper; FakeConferenceCreator end
+      def user.basic_user_wrapper;           FakeBasicUser           end
+      def user.conference_creator_wrapper;   FakeConferenceCreator   end
       def user.conference_organizer_wrapper; FakeConferenceOrganizer end
 
       user
@@ -226,8 +226,8 @@ module UserTest
 
 
     test "3.2 can assign organizers if they are the creator" do
-      conference1 = create :conference
-      conference2 = create :conference, creator: user
+      conference1 = build :conference
+      conference2 = build :conference, creator: user
 
       assert_raises UserIsNotTheCreator do
         user.assign_organizers conference1, nil
@@ -241,8 +241,8 @@ module UserTest
 
 
     test "3.3 can remove organizers if they are the creator" do
-      conference1 = create :conference
-      conference2 = create :conference, creator: user
+      conference1 = build :conference
+      conference2 = build :conference, creator: user
 
       assert_raises UserIsNotTheCreator do
         user.assign_organizers conference1, nil
@@ -256,8 +256,8 @@ module UserTest
 
 
     test "3.4 can create a topic if they are an organizer" do
-      conference1 = create :conference
-      conference2 = create :conference, organizers: [user]
+      conference1 = build :conference
+      conference2 = build :conference, organizers: [user]
 
       assert_raises UserIsNotAnOrganizer do
         user.create_topic conference1, nil
@@ -271,8 +271,8 @@ module UserTest
 
 
     test "3.5 can assign moderators if they are an organizer" do
-      topic1 = create :topic
-      topic2 = create :topic, conference: build(:conference, organizers: [user])
+      topic1 = build :topic
+      topic2 = build :topic, conference: build(:conference, organizers: [user])
 
       assert_raises UserIsNotAnOrganizer do
         user.assign_moderators topic1, nil
@@ -286,8 +286,8 @@ module UserTest
 
 
     test "3.6 can remove moderators if they are an organizer" do
-      topic1 = create :topic
-      topic2 = create :topic, conference: build(:conference, organizers: [user])
+      topic1 = build :topic
+      topic2 = build :topic, conference: build(:conference, organizers: [user])
 
       assert_raises UserIsNotAnOrganizer do
         user.assign_moderators topic1, nil

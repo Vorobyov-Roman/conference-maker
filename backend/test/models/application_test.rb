@@ -42,11 +42,11 @@ module ApplicationTest
 
 
     test "1.1.2 a title should be unique within a conference" do
-      conference1 = create :conference
-      conference2 = create :conference
-      topic1 = create :topic, conference: conference1
-      topic2 = create :topic, conference: conference2
-      topic3 = create :topic, conference: conference2
+      conference1 = build :conference
+      conference2 = build :conference
+      topic1 = build :topic, conference: conference1
+      topic2 = build :topic, conference: conference2
+      topic3 = build :topic, conference: conference2
 
       using strategy: :create, topic: topic1
       assert_valid :title, "dummy title"
@@ -72,8 +72,8 @@ module ApplicationTest
   class AssociationsTest < ActiveSupport::TestCase
 
     test "2.1 should belong to a single sender" do
-      user = create :user
-      application = create :application, sender: user
+      user = build :user
+      application = build :application, sender: user
 
       assert_same application.sender, user
     end
@@ -81,8 +81,8 @@ module ApplicationTest
 
 
     test "2.2 should reference a single topic" do
-      topic = create :topic
-      application = create :application, topic: topic
+      topic = build :topic
+      application = build :application, topic: topic
 
       assert_same application.topic, topic
     end
@@ -91,7 +91,7 @@ module ApplicationTest
 
     test "2.3 should reference a single conference" do
       conference = build :conference
-      application = create(
+      application = build(
         :application,
         topic: build(:topic, conference: conference)
       )
@@ -102,14 +102,14 @@ module ApplicationTest
 
 
     test "2.4 should have many reviews" do
-      application = create :application, reviews_count: 2
+      application = build :application, reviews_count: 2
       assert_equal 2, application.reviews.count
     end
 
 
 
     test "2.5 should have many reviewers" do
-      application = create :application, reviews_count: 3
+      application = build :application, reviews_count: 3
       assert_equal 3, application.reviewers.count
     end
 

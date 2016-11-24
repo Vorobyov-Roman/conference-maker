@@ -1,21 +1,18 @@
-module Privileges
+class Privileges::BasicUser
 
-  class BasicUser
+  def initialize factory, user
+    @factory = factory
+    @user = user
+  end
 
-    def initialize user
-      @user = user
-    end
+  def create_conference params
+    conference_manager.create_conference @user, params
+  end
 
-    def create_conference params
-      conference_manager.create_conference @user, params
-    end
+private
 
-  private
-
-    def conference_manager
-      ConferenceManager.new
-    end
-
+  def conference_manager
+    Managers::ConferenceManager.new @factory
   end
 
 end

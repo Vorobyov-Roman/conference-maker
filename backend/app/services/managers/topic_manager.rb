@@ -1,7 +1,11 @@
-class TopicManager
+class Managers::TopicManager
+
+  def initialize factory
+    @factory = factory
+  end
 
   def create_topic conference, params
-    Topic.create(params.merge conference: conference)
+    @factory.create :topic, params.merge(conference: conference)
   end
 
   def add_moderators topic, *users

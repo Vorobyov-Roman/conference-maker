@@ -85,8 +85,8 @@ module ConferenceTest
 
 
     test "2.4 should have many applications" do
-      topic1 = create :topic, applications_count: 2
-      topic2 = create :topic, applications_count: 3
+      topic1 = build :topic, applications_count: 2
+      topic2 = build :topic, applications_count: 3
       conference = create :conference, topics: [topic1, topic2]
 
       assert_equal 5, conference.applications.count

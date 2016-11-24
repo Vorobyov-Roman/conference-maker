@@ -1,7 +1,7 @@
 module UserPrivileges::BasicUser
 
   def as_basic_user
-    @as_basic_user ||= basic_user_wrapper.new self
+    basic_user_wrapper.new factory, self
   end
 
   def create_conference params

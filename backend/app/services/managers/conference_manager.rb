@@ -1,7 +1,11 @@
-class ConferenceManager
+class Managers::ConferenceManager
+
+  def initialize factory
+    @factory = factory
+  end
 
   def create_conference issuer, params
-    Conference.create(params.merge creator: issuer)
+    @factory.create :conference, params.merge(creator: issuer)
   end
 
   def add_organizers conference, *users

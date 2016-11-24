@@ -4,7 +4,7 @@ require 'rails/test_help'
 
 class ActiveSupport::TestCase
 
-  # Allow to ommit the prefix
+  # Allows to ommit the prefix
   include FactoryGirl::Syntax::Methods
 
 end

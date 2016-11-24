@@ -18,85 +18,63 @@ require 'test_helper'
 
 class TopicManagerTest < ActiveSupport::TestCase
 
-  def get_manager
-    fake_manager = TopicManager.new
-
-    def fake_manager.create_topic params = {}
-      FactoryGirl.create :topic, params
-    end
-
-    fake_manager
-  end
-
-  def manager
-    @manager ||= get_manager
+  def setup
+    @manager    ||= Managers::TopicManager.new FactoryGirl
+    @conference ||= build :conference
+    @user1        = build :user
+    @user2        = build :user
+    @topic        = @manager.create_topic @conference, moderators: [@user2]
   end
 
 
 
   test "1.1 should create a new topic" do
-    topic = manager.create_topic
-    assert_includes Topic.all, topic
+    assert_includes Topic.all, @topic
   end
 
 
 
   test "1.2 should set the conference as the topic's conference" do
-    conference = create :conference
-    topic = manager.create_topic conference: conference
-
-    assert_equal topic.conference, conference
-    assert_includes conference.topics, topic
+    assert_equal @topic.conference, @conference
+    assert_includes @conference.topics, @topic
   end
 
 
 
   test "2.1 should add the user to the moderators" do
-    topic = create :topic
-    user = create :user
+    @manager.add_moderators @topic, @user1
 
-    manager.add_moderators topic, user
-
-    assert_includes user.moderated_topics, topic
-    assert_includes topic.moderators, user
+    assert_includes @user1.moderated_topics, @topic
+    assert_includes @topic.moderators, @user1
   end
 
 
 
   test "2.2 should not add the user if they are already a moderator" do
-    user = create :user
-    topic = create :topic, moderators: [user]
+    assert_equal 1, @topic.moderators.count
 
-    before_count = topic.moderators.count
+    @manager.add_moderators @topic, @user2
 
-    manager.add_moderators topic, user
-
-    assert_equal topic.moderators.count, before_count
+    assert_equal 1, @topic.moderators.count
   end
 
 
 
   test "3.1 should remove the user from the moderators" do
-    user = create :user
-    topic = create :topic, moderators: [user]
+    @manager.remove_moderators @topic, @user2
 
-    manager.remove_moderators topic, user
-
-    assert_not_includes user.moderated_topics, topic
-    assert_not_includes topic.moderators, user
+    assert_not_includes @user2.moderated_topics, @topic
+    assert_not_includes @topic.moderators, @user2
   end
 
 
 
   test "3.2 should not remove the user if they are not a moderator" do
-    topic = create :topic
-    user = create :user
+    assert_equal 1, @topic.moderators.count
 
-    before_count = topic.moderators.count
+    @manager.remove_moderators @topic, @user1
 
-    manager.remove_moderators topic, user
-
-    assert_equal topic.moderators.count, before_count
+    assert_equal 1, @topic.moderators.count
   end
 
 end

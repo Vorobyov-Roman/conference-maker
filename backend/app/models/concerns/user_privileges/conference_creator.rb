@@ -1,7 +1,7 @@
 module UserPrivileges::ConferenceCreator
 
   def as_creator conference
-    @as_creator ||= conference_creator_wrapper.new self, conference
+    conference_creator_wrapper.new factory, self, conference
   end
 
   def assign_organizers conference, *users
