@@ -5,7 +5,7 @@ module Associations::ApplicationReviews
   end
 
   def self.association_for_review target
-    target.references :application
+    target.belongs_to :application
   end
-  
+
 end

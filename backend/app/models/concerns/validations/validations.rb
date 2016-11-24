@@ -1,7 +1,7 @@
 require 'active_support/concern'
 
 module Validations
-  
+
   extend ActiveSupport::Concern
 
   included do

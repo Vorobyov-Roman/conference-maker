@@ -18,5 +18,5 @@ module Associations::ConferencesCreator
 
     target.belongs_to :creator, params
   end
-  
+
 end

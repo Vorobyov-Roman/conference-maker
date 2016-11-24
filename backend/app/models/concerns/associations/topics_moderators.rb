@@ -19,5 +19,5 @@ module Associations::TopicsModerators
 
     target.has_and_belongs_to_many :moderators, params
   end
-  
+
 end

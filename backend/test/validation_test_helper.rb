@@ -23,14 +23,15 @@ module ValidationTestHelper
 
   def assert_invalid field, message, *values
     check_validity_of field, values do |record, value|
-      assert_not record.valid?
+      assert_not record.valid? if record.new_record?
       assert_includes record.errors[field], message
     end
   end
 
   def assert_valid field, *values
     check_validity_of field, values do |record, value|
-      assert record.valid?
+      assert record.valid? if record.new_record?
+      assert_empty record.errors[:field]
     end
   end
 

@@ -141,37 +141,43 @@ module UserTest
   class AssociationsTest < ActiveSupport::TestCase
 
     test "2.1 should have many created conferences" do
-      user = build :creator, conferences_count: 2
-      assert user.created_conferences.size, 2
+      user = build :user, created_conferences_count: 2
+      assert_equal 2, user.created_conferences.count
     end
 
 
 
     test "2.2 should have many organized conferences" do
-      user = build :organizer, conferences_count: 3
-      assert user.organized_conferences.size, 3
+      user = build :user, organized_conferences_count: 3
+      assert_equal 3, user.organized_conferences.count
     end
 
 
 
     test "2.3 should have many moderated topics" do
-      user = build :moderator, topics_count: 4
-      assert user.moderated_topics.count, 4
+      user = build :user, moderated_topics_count: 4
+      assert_equal 4, user.moderated_topics.count
     end
 
 
 
     test "2.4 should have many sent applications" do
+      user = build :user, sent_applications_count: 3
+      assert_equal 3, user.sent_applications.count
     end
 
 
 
     test "2.5 should have many reviews" do
+      user = build :user, reviews_count: 2
+      assert_equal 2, user.reviews.count
     end
 
 
 
     test "2.6 should have many reviewed applications" do
+      user = build :user, reviews_count: 2
+      assert_equal 2, user.reviewed_applications.count
     end
 
   end

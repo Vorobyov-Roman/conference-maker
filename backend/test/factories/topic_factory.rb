@@ -7,10 +7,12 @@ FactoryGirl.define do
 
     transient do
       moderators_count 0
+      applications_count 0
     end
 
-    after :build do |this, eval|
-      create_list :user, eval.moderators_count, moderated_topics: [this]
+    after :build do |this, e|
+      create_list :user, e.moderators_count, moderated_topics: [this]
+      create_list :application, e.applications_count, topic: this
     end
   end
 

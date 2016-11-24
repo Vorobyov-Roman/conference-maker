@@ -6,34 +6,20 @@ FactoryGirl.define do
     login
     password "password"
 
-    factory :creator do
-      transient do
-        conferences_count 1
-      end
-
-      after :build do |this, eval|
-        create_list :conference, eval.conferences_count, creator: this
-      end
+    transient do
+      created_conferences_count 0
+      organized_conferences_count 0
+      moderated_topics_count 0
+      sent_applications_count 0
+      reviews_count 0
     end
 
-    factory :organizer do
-      transient do
-        conferences_count 1
-      end
-
-      after :build do |this, eval|
-        create_list :conference, eval.conferences_count, organizers: [this]
-      end
-    end
-
-    factory :moderator do
-      transient do
-        topics_count 1
-      end
-
-      after :build do |this, eval|
-        create_list :topic, eval.topics_count, moderators: [this]
-      end
+    after :build do |this, e|
+      create_list :conference, e.created_conferences_count, creator: this
+      create_list :conference, e.organized_conferences_count, organizers: [this]
+      create_list :topic, e.moderated_topics_count, moderators: [this]
+      create_list :application, e.sent_applications_count, sender: this
+      create_list :review, e.reviews_count, reviewer: this
     end
   end
 

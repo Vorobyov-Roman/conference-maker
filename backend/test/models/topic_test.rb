@@ -24,8 +24,8 @@ module TopicTest
     include ValidationTestHelper
 
     MESSAGES = {
-      title_empty: "The title should not be empty",
-      title_taken: "This title is already taken",
+      title_empty:       "The title should not be empty",
+      title_taken:       "This title is already taken",
 
       description_empty: "The description should not be empty"
     }
@@ -77,12 +77,14 @@ module TopicTest
 
     test "2.2 should have many moderators" do
       topic = build :topic, moderators_count: 2
-      assert_equal topic.moderators.size, 2
+      assert_equal 2, topic.moderators.count
     end
 
 
 
     test "2.3 should have many applications" do
+      topic = build :topic, applications_count: 2
+      assert_equal 2, topic.applications.count
     end
 
   end

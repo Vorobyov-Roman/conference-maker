@@ -18,5 +18,5 @@ module Associations::SenderApplications
 
     target.belongs_to :sender, params
   end
-  
+
 end

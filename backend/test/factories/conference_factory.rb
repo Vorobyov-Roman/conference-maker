@@ -10,9 +10,9 @@ FactoryGirl.define do
       topics_count 0
     end
 
-    after :build do |this, eval|
-      create_list :user, eval.organizers_count, organized_conferences: [this]
-      create_list :topic, eval.topics_count, conference: this
+    after :build do |this, e|
+      create_list :user, e.organizers_count, organized_conferences: [this]
+      create_list :topic, e.topics_count, conference: this
     end
   end
 

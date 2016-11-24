@@ -53,8 +53,8 @@ private
   def self.associations_for_application
     [
       SenderApplications,       # belongs to one sender
-      ApplicationsTopic,        # references one topic
-      ApplicationsConferences,  # references one conference
+      ApplicationsTopic,        # belongs to one topic
+      ApplicationsConferences,  # belongs to one conference
       ApplicationReviews,       # has many reviews
       ApplicationsReviewers     # has many reviewers
     ]
@@ -62,9 +62,9 @@ private
 
   def self.associations_for_review
     [
-      ReviewerReviews,          # references one reviewer
-      ApplicationReviews        # references one application
+      ReviewerReviews,          # belongs to one reviewer
+      ApplicationReviews        # belongs to one application
     ]
   end
-  
+
 end

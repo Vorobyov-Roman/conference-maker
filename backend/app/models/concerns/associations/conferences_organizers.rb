@@ -19,5 +19,5 @@ module Associations::ConferencesOrganizers
 
     target.has_and_belongs_to_many :organizers, params
   end
-  
+
 end

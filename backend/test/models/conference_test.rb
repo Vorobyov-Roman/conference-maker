@@ -72,19 +72,24 @@ module ConferenceTest
 
     test "2.2 should have many organizers" do
       conference = build :conference, organizers_count: 2
-      assert conference.organizers.size, 2
+      assert_equal 2, conference.organizers.count
     end
 
 
 
     test "2.3 should have many topics" do
       conference = build :conference, topics_count: 3
-      assert conference.topics.size, 3
+      assert_equal 3, conference.topics.count
     end
 
 
 
     test "2.4 should have many applications" do
+      topic1 = create :topic, applications_count: 2
+      topic2 = create :topic, applications_count: 3
+      conference = create :conference, topics: [topic1, topic2]
+
+      assert_equal 5, conference.applications.count
     end
 
   end
