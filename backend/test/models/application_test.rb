@@ -16,6 +16,7 @@ require 'validation_test_helper'
   2.3 should reference a single conference
   2.4 should have many reviews
   2.5 should have many reviewers
+  2.6 should have many versions
 
 =end
 
@@ -111,6 +112,17 @@ module ApplicationTest
     test "2.5 should have many reviewers" do
       application = build :application, reviews_count: 3
       assert_equal 3, application.reviewers.count
+    end
+
+
+
+    test "2.6 should have many versions" do
+      application1 = create :application
+      application2 = create :updated_application, previous_version: application1
+      application3 = create :updated_application, previous_version: application2
+
+      assert_same application1, application2.previous_version
+      assert_same application3, application2.next_version
     end
 
   end

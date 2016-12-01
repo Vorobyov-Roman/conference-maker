@@ -5,9 +5,10 @@ class Managers::ReviewManager
   end
 
   def create_review issuer, application, params
-    params.merge! reviewer: issuer, application: application
-
-    @factory.create :review, params
+    @factory.create :review, params.merge(
+      reviewer: issuer,
+      application: application
+    )
   end
 
 end

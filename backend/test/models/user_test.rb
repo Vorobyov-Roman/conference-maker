@@ -28,12 +28,16 @@ require 'validation_test_helper'
   2.6 should have many reviewed applications
 
 3 Privileges
-    3.1 can create a conference
-    3.2 can assign organizers if they are the creator
-    3.3 can remove organizers if they are the creator
-    3.4 can create a topic if they are an organizer
-    3.5 can assign moderators if they are an organizer
-    3.6 can remove moderators if they are an organizer
+  3.1 can create a conference
+  3.2 can assign organizers if they are the creator
+  3.3 can remove organizers if they are the creator
+  3.4 can create a topic if they are an organizer
+  3.5 can assign moderators if they are an organizer
+  3.6 can remove moderators if they are an organizer
+  3.7 can send applications unless they are a part of the organizing staff
+  3.8 can update application if they are the sender
+  3.9 can update application if its status is not 'accepted' or 'rejected'
+  3.10 can review an application if they are a moderator of its topic
 
 =end
 

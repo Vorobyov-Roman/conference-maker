@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161117174011) do
+ActiveRecord::Schema.define(version: 20161127185644) do
 
   create_table "applications", force: :cascade do |t|
     t.string   "title"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 20161117174011) do
     t.datetime "updated_at",  null: false
     t.integer  "sender_id"
     t.integer  "topic_id"
+    t.integer  "parent_id"
+    t.index ["parent_id"], name: "index_applications_on_parent_id"
     t.index ["sender_id"], name: "index_applications_on_sender_id"
     t.index ["topic_id"], name: "index_applications_on_topic_id"
   end

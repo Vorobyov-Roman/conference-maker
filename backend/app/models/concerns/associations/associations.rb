@@ -56,7 +56,8 @@ private
       ApplicationsTopic,        # belongs to one topic
       ApplicationsConferences,  # belongs to one conference
       ApplicationReviews,       # has many reviews
-      ApplicationsReviewers     # has many reviewers
+      ApplicationsReviewers,    # has many reviewers
+      ApplicationVersions       # has many versions
     ]
   end
 
