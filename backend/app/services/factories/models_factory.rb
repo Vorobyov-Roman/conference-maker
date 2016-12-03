@@ -1,4 +1,4 @@
-class ModelsFactory
+class Factories::ModelsFactory
 
   def create name, params = {}
     model(name).create params

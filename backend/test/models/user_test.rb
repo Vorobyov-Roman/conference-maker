@@ -1,5 +1,6 @@
 require 'test_helper'
 require 'validation_test_helper'
+require 'fake'
 
 =begin
 
@@ -190,27 +191,12 @@ module UserTest
 
   class PrivilegeTest < ActiveSupport::TestCase
 
-    class FakeBasicUser < Privileges::BasicUser
-      def create_conference params; end
-    end
-
-    class FakeConferenceCreator < Privileges::ConferenceCreator
-      def assign_organizers *users; end
-      def remove_organizer  *users; end
-    end
-
-    class FakeConferenceOrganizer < Privileges::ConferenceOrganizer
-      def create_topic      conference, params; end
-      def assign_moderators topic, *users;      end
-      def remove_moderators topic, *users;      end
-    end
-
     def new_user
       user = build :user
 
-      def user.basic_user_wrapper;           FakeBasicUser           end
-      def user.conference_creator_wrapper;   FakeConferenceCreator   end
-      def user.conference_organizer_wrapper; FakeConferenceOrganizer end
+      def user.managers_provider
+        Class.new { def self.provide name; Fake.new end }
+      end
 
       user
     end
@@ -300,6 +286,49 @@ module UserTest
       assert_nothing_raised do
         user.assign_moderators topic2, nil
       end
+    end
+
+
+
+    test "3.7 can send applications unless they are a part of the organizing staff" do
+      created_conference = build :conference, creator: user
+      organized_conference = build :conference, organizers: [user]
+
+      topic1 = build :topic, conference: created_conference
+      topic2 = build :topic, conference: organized_conference
+      topic3 = build :topic, moderators: [user]
+      topic4 = build :topic
+
+      assert_raises UserIsTheCreator do
+        user.send_application topic1, nil
+      end
+
+      assert_raises UserIsAnOrganizer do
+        user.send_application topic2, nil
+      end
+
+      assert_raises UserIsAModerator do
+        user.send_application topic3, nil
+      end
+
+      assert_nothing_raised do
+        user.send_application topic4, nil
+      end
+    end
+
+
+
+    test "3.8 can update application if they are the sender" do
+    end
+
+
+
+    test "3.9 can update application if its status is not 'accepted' or 'rejected'" do
+    end
+
+
+
+    test "3.10 can review an application if they are a moderator of its topic" do
     end
 
   end

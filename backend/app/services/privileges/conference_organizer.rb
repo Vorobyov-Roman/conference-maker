@@ -1,10 +1,10 @@
 class Privileges::ConferenceOrganizer < Privileges::BasicUser
 
-  def initialize factory, user, conference
-    check_user_is_organizer user, conference
-
-    super factory, user
+  def initialize managers_provider, user, conference
+    super managers_provider, user
     @conference = conference
+
+    check_is_organizer @conference
   end
 
   def create_topic conference, params
@@ -17,16 +17,6 @@ class Privileges::ConferenceOrganizer < Privileges::BasicUser
 
   def remove_moderators topic, *users
     topic_manager.remove_moderators topic, *users
-  end
-
-private
-
-  def check_user_is_organizer user, conference
-    raise UserIsNotAnOrganizer.new unless conference.organizers.include? user
-  end
-
-  def topic_manager
-    Managers::TopicManager.new @factory
   end
 
 end
