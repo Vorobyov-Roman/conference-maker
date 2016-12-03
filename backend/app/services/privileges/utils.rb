@@ -16,13 +16,18 @@ module Privileges::Utils
     application.sender == @user
   end
 
+  def final? application
+    application.status == :accepted || application.status == :rejected
+  end
+
 private
 
   EXCEPTIONS = {
-    creator?:   { true => UserIsNotTheCreator,  false => UserIsTheCreator  },
-    organizer?: { true => UserIsNotAnOrganizer, false => UserIsAnOrganizer },
-    moderator?: { true => UserIsNotAModerator,  false => UserIsAModerator  },
-    sender?:    { true => UserIsNotASender                                 }
+    creator?:   { true => UserIsNotTheCreator,  false => UserIsTheCreator   },
+    organizer?: { true => UserIsNotAnOrganizer, false => UserIsAnOrganizer  },
+    moderator?: { true => UserIsNotAModerator,  false => UserIsAModerator   },
+    sender?:    { true => UserIsNotASender                                  },
+    final?:     {                               false => ApplicationIsFinal }
   }
 
   def check role, obj, expected_to_be
@@ -52,6 +57,7 @@ protected
   declare_checker :organizer
   declare_checker :moderator
   declare_checker :sender
+  declare_checker :final
 
   declare_manager_wrapper :application
   declare_manager_wrapper :conference

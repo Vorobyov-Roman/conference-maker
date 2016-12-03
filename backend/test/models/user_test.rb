@@ -319,16 +319,56 @@ module UserTest
 
 
     test "3.8 can update application if they are the sender" do
+      application1 = build :application
+      application2 = build :application, sender: user
+
+      assert_raises UserIsNotASender do
+        user.update_application application1, nil
+      end
+
+      assert_nothing_raised do
+        user.update_application application2, nil
+      end
     end
 
 
 
     test "3.9 can update application if its status is not 'accepted' or 'rejected'" do
+      pending           = build :application, sender: user
+      accepted          = build :accepted_application, sender: user
+      rejected          = build :rejected_application, sender: user
+      needs_corrections = build :disputable_application, sender: user
+
+      assert_raises ApplicationIsFinal do
+        user.update_application accepted, nil
+      end
+
+      assert_raises ApplicationIsFinal do
+        user.update_application accepted, nil
+      end
+
+      assert_nothing_raised do
+        user.update_application pending, nil
+        user.update_application needs_corrections, nil
+      end
     end
 
 
 
     test "3.10 can review an application if they are a moderator of its topic" do
+      topic1 = build :topic
+      topic2 = build :topic, moderators: [user]
+
+      application1 = build :application, topic: topic1
+      application2 = build :application, topic: topic2
+
+      assert_raises UserIsNotAModerator do
+        user.review_application application1, nil
+      end
+
+      assert_nothing_raised do
+        user.review_application application2, nil
+      end
     end
 
   end

@@ -12,10 +12,16 @@ private
 
   def reslove_alias name
     case name
-    when :updated_application
-      "application"
-    else
-      "#{name}"
+
+      when :updated_application,
+           :accepted_application,
+           :rejected_application,
+           :disputable_application
+        "application"
+
+      else
+        "#{name}"
+
     end
   end
 

@@ -113,7 +113,10 @@ class ModelsFactoryTest < ActiveSupport::TestCase
 
 
   test "2.1 should create an applciation by its alisases" do
-    assert_creates_model :updated_application, :application
+    assert_creates_model :updated_application,    :application
+    assert_creates_model :accepted_application,   :application
+    assert_creates_model :rejected_application,   :application
+    assert_creates_model :disputable_application, :application
   end
 
 end

@@ -9,6 +9,9 @@ class UserIsOrganizingStaff < StandardError; end
   class UserIsAnOrganizer < UserIsOrganizingStaff; end
   class UserIsAModerator < UserIsOrganizingStaff; end
 
+class BadResource < StandardError; end
+  class ApplicationIsFinal < BadResource; end
+
 class InternalError < StandardError; end
   class UnspecifiedFactory < InternalError; end
   class UnknownStrategy < InternalError; end

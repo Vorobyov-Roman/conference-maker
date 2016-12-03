@@ -8,6 +8,8 @@ module UserPrivileges
     include UserPrivileges::BasicUser
     include UserPrivileges::ConferenceCreator
     include UserPrivileges::ConferenceOrganizer
+    include UserPrivileges::TopicModerator
+    include UserPrivileges::ApplicationSender
   end
 
 end

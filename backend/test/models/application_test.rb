@@ -18,6 +18,13 @@ require 'validation_test_helper'
   2.5 should have many reviewers
   2.6 should have many versions
 
+3 Behavior
+  3.1 Status calculation
+    3.1.1 is pending
+    3.1.2 is accepted
+    3.1.3 is rejected
+    3.1.4 is disputable
+
 =end
 
 module ApplicationTest
@@ -123,6 +130,48 @@ module ApplicationTest
 
       assert_same application1, application2.previous_version
       assert_same application3, application2.next_version
+    end
+
+
+
+    test "3.1.1 is pending" do
+      application = build :application, reviews: []
+
+      assert application.pending?
+    end
+
+
+
+    test "3.1.2 is accepted" do
+      application = build :application
+      create_list :review, 2, application: application, status: :accepted
+
+      assert application.accepted?
+    end
+
+
+
+    test "3.1.3 is rejected" do
+      application = build :application
+      review1 = create :review, application: application, status: :accepted
+      review2 = create :review, application: application, status: :rejected
+
+      assert application.rejected?
+    end
+
+
+
+    test "3.1.4 is disputable" do
+      application1 = build :application
+      review1 = create :review, application: application1, status: :accepted
+      review2 = create :review, application: application1, status: :disputable
+
+      application2 = build :application
+      review3 = create :review, application: application2, status: :rejected
+      review4 = create :review, application: application2, status: :disputable
+
+      assert application1.disputable?
+      assert_not application2.disputable?
     end
 
   end
