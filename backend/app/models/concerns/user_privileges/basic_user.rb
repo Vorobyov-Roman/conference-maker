@@ -12,6 +12,10 @@ module UserPrivileges::BasicUser
     as_basic_user.send_application topic, params
   end
 
+  def apply_for_attendance conference
+    as_basic_user.apply_for_attendance conference
+  end
+
 private
 
   def basic_user_wrapper

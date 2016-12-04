@@ -4,7 +4,7 @@ class Privileges::ConferenceOrganizer < Privileges::BasicUser
     super managers_provider, user
     @conference = conference
 
-    check_is_organizer @conference
+    check_is_organizer_of @conference
   end
 
   def create_topic conference, params

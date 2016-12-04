@@ -27,6 +27,7 @@ require 'fake'
   2.4 should have many sent applications
   2.5 should have many reviews
   2.6 should have many reviewed applications
+  2.7 should have many attended conferences
 
 3 Privileges
   3.1 can create a conference
@@ -39,6 +40,8 @@ require 'fake'
   3.8 can update application if they are the sender
   3.9 can update application if its status is not 'accepted' or 'rejected'
   3.10 can review an application if they are a moderator of its topic
+  3.11 can apply for attendance unless they are a part of the organizing staff
+  3.12 can apply for attendance unless they have any sent applications to it (uless it has been rejected)
 
 =end
 
@@ -183,6 +186,13 @@ module UserTest
     test "2.6 should have many reviewed applications" do
       user = build :user, reviews_count: 2
       assert_equal 2, user.reviewed_applications.count
+    end
+
+
+
+    test "2.7 should have many attended conferences" do
+      user = build :user, attended_conferences_count: 3
+      assert_equal 3, user.attended_conferences.count
     end
 
   end
@@ -368,6 +378,69 @@ module UserTest
 
       assert_nothing_raised do
         user.review_application application2, nil
+      end
+    end
+
+
+
+    test "3.11 can apply for attendance unless they are a part of the organizing staff" do
+      topic = build :topic, moderators: [user]
+      moderated_conference = create :conference, topics: [topic]
+      organized_conference = build :conference, organizers: [user]
+      created_conference = build :conference, creator: user
+      valid_conference = build :conference
+
+      assert_raises UserIsTheCreator do
+        user.apply_for_attendance created_conference
+      end
+
+      assert_raises UserIsAnOrganizer do
+        user.apply_for_attendance organized_conference
+      end
+
+      assert_raises UserIsAModerator do
+        user.apply_for_attendance moderated_conference
+      end
+
+      assert_nothing_raised do
+        user.apply_for_attendance valid_conference
+      end
+    end
+
+
+
+    test "3.12 can apply for attendance unless they have any sent applications to it" do
+      application1 = build :application, sender: user
+      application2 = build :rejected_application, sender: user
+      application3 = build :accepted_application, sender: user
+      application4 = build :disputable_application, sender: user
+
+      topic1 = build :topic, applications: [application1]
+      topic2 = build :topic, applications: [application2]
+      topic3 = build :topic, applications: [application3]
+      topic4 = build :topic, applications: [application4]
+
+      conference1 = create :conference, topics: [topic1]
+      conference2 = create :conference, topics: [topic2]
+      conference3 = create :conference, topics: [topic3]
+      conference4 = create :conference, topics: [topic4]
+      conference5 = create :conference
+
+      assert_raises UserIsASender do
+        user.apply_for_attendance conference1
+      end
+
+      assert_raises UserIsASender do
+        user.apply_for_attendance conference3
+      end
+
+      assert_raises UserIsASender do
+        user.apply_for_attendance conference4
+      end
+
+      assert_nothing_raised do
+        user.apply_for_attendance conference2
+        user.apply_for_attendance conference5
       end
     end
 

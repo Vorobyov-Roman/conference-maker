@@ -1,13 +1,12 @@
-class InsufficientPermissions < StandardError; end
-  class UserIsNotTheCreator < InsufficientPermissions; end
-  class UserIsNotAnOrganizer < InsufficientPermissions; end
-  class UserIsNotAModerator < InsufficientPermissions; end
-  class UserIsNotASender < InsufficientPermissions; end
-
-class UserIsOrganizingStaff < StandardError; end
-  class UserIsTheCreator < UserIsOrganizingStaff; end
-  class UserIsAnOrganizer < UserIsOrganizingStaff; end
-  class UserIsAModerator < UserIsOrganizingStaff; end
+class InvalidPermissions < StandardError; end
+  class UserIsNotTheCreator < InvalidPermissions; end
+  class UserIsTheCreator < InvalidPermissions; end
+  class UserIsNotAnOrganizer < InvalidPermissions; end
+  class UserIsAnOrganizer < InvalidPermissions; end
+  class UserIsNotAModerator < InvalidPermissions; end
+  class UserIsAModerator < InvalidPermissions; end
+  class UserIsNotASender < InvalidPermissions; end
+  class UserIsASender < InvalidPermissions; end
 
 class BadResource < StandardError; end
   class ApplicationIsFinal < BadResource; end

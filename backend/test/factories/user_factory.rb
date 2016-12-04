@@ -12,6 +12,7 @@ FactoryGirl.define do
       moderated_topics_count 0
       sent_applications_count 0
       reviews_count 0
+      attended_conferences_count 0
     end
 
     after :build do |this, e|
@@ -20,6 +21,7 @@ FactoryGirl.define do
       create_list :topic, e.moderated_topics_count, moderators: [this]
       create_list :application, e.sent_applications_count, sender: this
       create_list :review, e.reviews_count, reviewer: this
+      create_list :conference, e.attended_conferences_count, attendees: [this]
     end
   end
 

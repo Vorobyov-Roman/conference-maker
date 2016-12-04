@@ -29,7 +29,8 @@ private
       TopicsModerators,         # has many moderated topics
       SenderApplications,       # has many sent applications
       ReviewerReviews,          # has many reviews
-      ApplicationsReviewers     # has many reviewed applications
+      ApplicationsReviewers,    # has many reviewed applications
+      ConferencesAttendees      # has many attended conferences
     ]
   end
 
@@ -38,7 +39,8 @@ private
       ConferencesCreator,       # belongs to one creator
       ConferencesOrganizers,    # has many organizers
       ConferenceTopics,         # has many topics
-      ApplicationsConferences   # has many applications
+      ApplicationsConferences,  # has many applications
+      ConferencesAttendees      # has many attendees
     ]
   end
 

@@ -4,7 +4,7 @@ class Privileges::ApplicationSender < Privileges::BasicUser
     super managers_provider, user
     @applciation = applciation
 
-    check_is_sender @applciation
+    check_is_sender_of @applciation
     check_is_not_final @applciation
   end
 

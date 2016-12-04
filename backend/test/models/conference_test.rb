@@ -15,6 +15,7 @@ require 'validation_test_helper'
   2.2 should have many organizers
   2.3 should have many topics
   2.4 should have many applications
+  2.5 should have many attendees
 
 =end
 
@@ -90,6 +91,13 @@ module ConferenceTest
       conference = create :conference, topics: [topic1, topic2]
 
       assert_equal 5, conference.applications.count
+    end
+
+
+
+    test "2.5 should have many attendees" do
+      conference = build :conference, attendees_count: 4
+      assert_equal 4, conference.attendees.count
     end
 
   end

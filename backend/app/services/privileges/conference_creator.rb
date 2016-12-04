@@ -4,7 +4,7 @@ class Privileges::ConferenceCreator < Privileges::BasicUser
     super managers_provider, user
     @conference = conference
 
-    check_is_creator @conference
+    check_is_creator_of @conference
   end
 
   def assign_organizers *users

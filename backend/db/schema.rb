@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161127185644) do
+ActiveRecord::Schema.define(version: 20161204114810) do
 
   create_table "applications", force: :cascade do |t|
     t.string   "title"
@@ -23,6 +23,12 @@ ActiveRecord::Schema.define(version: 20161127185644) do
     t.index ["parent_id"], name: "index_applications_on_parent_id"
     t.index ["sender_id"], name: "index_applications_on_sender_id"
     t.index ["topic_id"], name: "index_applications_on_topic_id"
+  end
+
+  create_table "attendees_conferences", id: false, force: :cascade do |t|
+    t.integer "conference_id", null: false
+    t.integer "attendee_id",   null: false
+    t.index ["attendee_id", "conference_id"], name: "index_attendees_conferences_on_attendee_id_and_conference_id"
   end
 
   create_table "conferences", force: :cascade do |t|
