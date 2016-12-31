@@ -1,0 +1,27 @@
+mixin input(type, placeholder, model)
+  .form-group
+    input.form-control(
+      name             = model
+      type             = type
+      placeholder      = placeholder
+      ng-model         = "ctrl.data.#{model}"
+      ng-model-options = "{ updateOn: 'blur' }"
+    )
+
+mixin validated-input(type, placeholder, model)
+  .form-group(
+    ng-class = "{" +
+      "'has-error':   form.#{model}.invalid()," +
+      "'has-success': form.#{model}.valid()" +
+    "}"
+  )
+    input.form-control(
+      name             = model
+      type             = type
+      placeholder      = placeholder
+      ng-model         = "ctrl.data.#{model}"
+      ng-model-options = "{ updateOn: 'blur' }"
+      remote           = model
+    )
+    .collapse(uib-collapse = "!form.#{model}.hasMessages()")
+      .validation-error(ng-repeat = "msg in form.#{model}.getMessages()") {{ msg }}

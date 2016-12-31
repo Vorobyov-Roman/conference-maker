@@ -12,7 +12,7 @@ class ApplicationRecord < ActiveRecord::Base
 protected
 
   def factory
-    Factories::ModelsFactory.new
+    Factories::ModelsFactory.new :create!
   end
 
   def managers_provider

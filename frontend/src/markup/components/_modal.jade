@@ -1,0 +1,24 @@
+block vars
+
+.modal.fade(
+  id       = modalId
+  tabindex = "-1"
+  role     = "dialog"
+)
+  .modal-dialog.modal-lg(
+    role          = "document"
+    ng-controller = ctrl
+  )
+    .modal-content
+      .modal-header
+        h4.modal-title #{title}
+
+      .modal-body
+        block body
+
+      .modal-footer
+        .modal-error-msg.collapse(uib-collapse = "!ctrl.message")
+          .alert.alert-danger #[b Error!] {{ ctrl.message }}
+
+        button.btn.btn-default(data-dismiss = "modal") Close
+        button.btn.btn-primary(ng-click = "ctrl.submit()") Submit

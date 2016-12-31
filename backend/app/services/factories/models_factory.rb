@@ -1,7 +1,11 @@
 class Factories::ModelsFactory
 
+  def initialize strategy
+    @strategy = strategy
+  end
+
   def create name, params = {}
-    model(name).create params
+    model(name).send @strategy, params
   end
 
 private

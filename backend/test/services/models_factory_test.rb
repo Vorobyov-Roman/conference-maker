@@ -60,7 +60,7 @@ class ModelsFactoryTest < ActiveSupport::TestCase
   end
 
   def setup
-    @factory ||= Factories::ModelsFactory.new
+    @factory ||= Factories::ModelsFactory.new :create
   end
 
   def teardown

@@ -1,0 +1,11 @@
+meta(charset = "UTF-8")
+title Conference Maker
+
+for style in deps.styles
+  link(
+    rel  = "stylesheet"
+    href = style
+  )
+
+for script in deps.scripts
+  script(src = script)

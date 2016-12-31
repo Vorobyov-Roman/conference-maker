@@ -14,7 +14,8 @@ private
     application: Managers::ApplicationManager,
     conference:  Managers::ConferenceManager,
     review:      Managers::ReviewManager,
-    topic:       Managers::TopicManager
+    topic:       Managers::TopicManager,
+    user:        Managers::UserManager
   }
 
   def manager name

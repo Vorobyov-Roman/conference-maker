@@ -1,0 +1,13 @@
+doctype html
+html(ng-app = "app")
+  head
+    include components/head
+
+  body
+    include components/navbar
+
+    #main
+      ng-view
+
+    include components/signup
+    include components/login

@@ -1,0 +1,19 @@
+extends _modal
+
+include _input
+
+block vars
+  -
+    modalId = "signup"
+    ctrl    = "SignupController as ctrl"
+    title   = "Sign Up"
+
+block body
+  form(
+    name        = "form"
+    remote-form = "ctrl.data"
+  )
+    +validated-input("text",     "Name",     "name")
+    +validated-input("text",     "Email",    "email")
+    +validated-input("text",     "Login",    "login")
+    +validated-input("password", "Password", "password")

@@ -18,7 +18,7 @@ private
     [
       {
         length: { minimum: 5, too_short: too_short },
-        format: { with: /\A[a-zA-Z\s]+\z/, message: invalid_characters }
+        format: { without: /[^a-zA-Z\s]/, message: invalid_characters }
       },
       {
         format: { without: /(\A\s)|(\s\z)/, message: space_at_the_end }
@@ -47,7 +47,7 @@ private
     {
       uniqueness: { message: taken },
       length: { minimum: 5, too_short: too_short },
-      format: { with: /[a-zA-Z0-9\-_]+/, message: invalid_characters }
+      format: { without: /[^a-zA-Z0-9\-_.]/, message: invalid_characters }
     }
   end
 

@@ -32,7 +32,7 @@ module Backend
     config.api_only = true
 
     # Load concerns
-    Dir["#{Rails.root}/app/models/concerns/*"].each do |concern_path|
+    Dir["#{Rails.root}/app/*/concerns/*"].each do |concern_path|
       config.autoload_paths << concern_path
     end
 

@@ -1,0 +1,17 @@
+extends _modal
+
+include _input
+
+block vars
+  -
+    modalId = "login"
+    ctrl    = "LoginController as ctrl"
+    title   = "Log In"
+
+block body
+  form(
+    name        = "form"
+    remote-form = "ctrl.data"
+  )
+    +input("text",     "Login",    "login")
+    +input("password", "Password", "password")
