@@ -1,6 +1,6 @@
-"use strict"
+'use strict'
 
-var config = require('../config/gulp.js').scripts;
+var config = require('../config/gulp').scripts;
 var gulp   = require('gulp');
 var notify = require('gulp-notify');
 

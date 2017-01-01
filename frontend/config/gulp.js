@@ -1,4 +1,4 @@
-"use_strict"
+'use_strict'
 
 var serverConfig = require('./server.js');
 
@@ -34,16 +34,28 @@ exports.markup = {
 }
 
 exports.vendor = {
-  source: [
-    'node_modules/jquery/dist/jquery.js',
-    'node_modules/angular/angular.js',
-    'node_modules/angular-route/angular-route.js',
-    'node_modules/angular-cookies/angular-cookies.js',
-    'node_modules/angular-animate/angular-animate.js',
-    'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
-    'node_modules/bootstrap/dist/css/bootstrap.css',
-    'node_modules/bootstrap/dist/js/bootstrap.js'
-  ],
+  source: {
+    jquery: [
+      'node_modules/jquery/dist/jquery.js'
+    ],
+    angular: [
+      'node_modules/angular/angular.js',
+      'node_modules/angular-route/angular-route.js',
+      'node_modules/angular-cookies/angular-cookies.js',
+      'node_modules/angular-animate/angular-animate.js',
+      'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js'
+    ],
+    bootstrap: [
+      'node_modules/bootstrap/dist/css/bootstrap.css',
+      'node_modules/bootstrap/dist/js/bootstrap.js'
+    ],
+    get all() {
+      return []
+        .concat(this.jquery)
+        .concat(this.angular)
+        .concat(this.bootstrap);
+    }
+  },
   destination: inReleaseDirectory('vendor'),
   message:     'Done: Vendor libraries'
 }

@@ -24,4 +24,5 @@ mixin validated-input(type, placeholder, model)
       remote           = model
     )
     .collapse(uib-collapse = "!form.#{model}.hasMessages()")
-      .validation-error(ng-repeat = "msg in form.#{model}.getMessages()") {{ msg }}
+      .validation-error(ng-repeat = "msg in form.#{model}.getMessages()")
+        {{ msg }}

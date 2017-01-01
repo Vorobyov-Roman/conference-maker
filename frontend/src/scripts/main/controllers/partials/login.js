@@ -1,17 +1,17 @@
-"use strict"
+'use strict'
 
 angular.module('main').controller('LoginController', [
   '$scope',
   'authentication',
   'responseResolver',
-  function ($scope, authentication, responseResolver) {
+  function($scope, authentication, responseResolver) {
 
     var self = this;
     var modal = $('#login');
 
     this.submit = function() {
       function onSuccess(data) {
-        this.message = null;
+        self.message = null;
 
         modal.modal('hide');
       }

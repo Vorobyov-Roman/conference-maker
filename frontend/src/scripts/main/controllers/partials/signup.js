@@ -1,13 +1,15 @@
-"use strict"
+'use strict'
 
 angular.module('main').controller('SignupController', [
   '$scope',
   'authentication',
   'responseResolver',
-  function ($scope, authentication, responseResolver) {
+  function($scope, authentication, responseResolver) {
 
     var self = this;
     var modal = $('#signup');
+
+    this.data = {};
 
     this.submit = function() {
       function onSuccess(data) {
@@ -19,6 +21,7 @@ angular.module('main').controller('SignupController', [
       function onError(err) {
         responseResolver
           .on('BAD_REQUEST', function() {
+            delete self.message;
             $scope.$broadcast('FORCE_VALIDATION', err.data.errors);
           })
           .default(function() {

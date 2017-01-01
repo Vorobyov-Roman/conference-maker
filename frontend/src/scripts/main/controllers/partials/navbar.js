@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 
 angular.module('main').controller('NavbarController', [
   'authentication',

@@ -1,3 +1,8 @@
-"use strict"
+'use strict'
 
-angular.module('inputUtils', ['backend', 'utility', 'ui.bootstrap', 'ngAnimate']);
+angular.module('inputUtils', [
+  'backend',
+  'utility',
+  'ui.bootstrap',
+  'ngAnimate'
+]);

@@ -1,8 +1,8 @@
-"use strict"
+'use strict'
 
 angular.module('main').config([
   '$routeProvider',
-  function ($routeProvider) {
+  function($routeProvider) {
 
     $routeProvider
       .when('/', {

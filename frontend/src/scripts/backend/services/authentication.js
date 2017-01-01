@@ -1,15 +1,16 @@
-"use strict"
+'use strict'
 
 angular.module('backend').service('authentication', [
   '$q',
   '$cookies',
   'request',
-  function($q, $cookies, request) {
+  'AUTH_TOKEN',
+  function($q, $cookies, request, AUTH_TOKEN) {
 
     this.logIn = function(data) {
       return $q(function(resolve, reject) {
         function onSuccess(data) {
-          $cookies.put('auth-token', data.data.token);
+          $cookies.put(AUTH_TOKEN, data.data.token);
 
           resolve(data);
         }
@@ -23,11 +24,11 @@ angular.module('backend').service('authentication', [
     }
 
     this.logOut = function() {
-      $cookies.remove('auth-token');
+      $cookies.remove(AUTH_TOKEN);
     }
 
     this.isLoggedIn = function() {
-      return $cookies.get('auth-token') !== undefined;
+      return $cookies.get(AUTH_TOKEN) !== undefined;
     }
 
     this.signUp = function(data) {

@@ -1,6 +1,6 @@
-"use strict"
+'use strict'
 
-var config     = require('../config/gulp.js').markup;
+var config     = require('../config/gulp').markup;
 var gulp       = require('gulp');
 var jade       = require('gulp-jade');
 var notify     = require('gulp-notify');
@@ -24,7 +24,7 @@ function getScriptsPaths() {
   ]
 
   return scripts
-    .concat(glob.sync('scripts/utility/**/*.js', options))
+    .concat(glob.sync('scripts/utility/**/*.js',     options))
     .concat(glob.sync('scripts/backend/**/*.js',     options))
     .concat(glob.sync('scripts/input_utils/**/*.js', options))
     .concat(glob.sync('scripts/main/**/*.js',        options))

@@ -1,10 +1,10 @@
-"use strict"
+'use strict'
 
 angular.module('utility').service('responseResolver', [
   'HTTP_STATUSES',
   function(statuses) {
 
-    this.map = {}
+    this.map     = {}
     this.default = angular.noop;
 
     this.on = function(status, callback) {

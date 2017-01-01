@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 
 angular.module('inputUtils').directive('remote', [
   '$q',
@@ -8,7 +8,9 @@ angular.module('inputUtils').directive('remote', [
 
     function link(scope, elem, attrs, ctrls) {
 
-      var formCtrl = ctrls[0];
+      var anyPendingRequests = false;
+
+      var formCtrl  = ctrls[0];
       var inputCtrl = ctrls[1];
 
       scope.$on('FORCE_VALIDATION', function(event, args) {
@@ -45,11 +47,11 @@ angular.module('inputUtils').directive('remote', [
       }
 
       inputCtrl.valid = function() {
-        return this.$dirty && !this.hasMessages();
+        return !anyPendingRequests && this.$dirty && !this.hasMessages();
       }
 
       inputCtrl.invalid = function() {
-        return this.$dirty && this.hasMessages();
+        return !anyPendingRequests && this.$dirty && this.hasMessages();
       }
 
       inputCtrl.$asyncValidators.remote = function(modelValue, viewValue) {
@@ -57,7 +59,22 @@ angular.module('inputUtils').directive('remote', [
           return $q.resolve();
         }
 
-        return async.execute(sendRequest.bind(null, modelValue));
+        return async.execute(function(def) {
+          function onSuccess(data) {
+            anyPendingRequests = false;
+            def.resolve();
+          }
+
+          function onError(err) {
+            // treat unprocessed requests as as pending
+            def.reject();
+          }
+
+          anyPendingRequests = true;
+
+          async.execute(sendRequest.bind(null, modelValue))
+            .then(onSuccess, onError);
+        });
       }
 
     }

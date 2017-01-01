@@ -1,6 +1,6 @@
-"use strict"
+'use strict'
 
-var config = require('../config/gulp.js').styles;
+var config = require('../config/gulp').styles;
 var gulp   = require('gulp');
 var sass   = require('gulp-sass');
 var concat = require('gulp-concat-util');
