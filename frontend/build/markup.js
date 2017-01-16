@@ -20,6 +20,7 @@ function getScriptsPaths() {
     'vendor/angular-route.js',
     'vendor/angular-cookies.js',
     'vendor/angular-animate.js',
+    'vendor/angular-jwt.js',
     'vendor/ui-bootstrap-tpls.js'
   ]
 

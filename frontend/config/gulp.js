@@ -43,6 +43,7 @@ exports.vendor = {
       'node_modules/angular-route/angular-route.js',
       'node_modules/angular-cookies/angular-cookies.js',
       'node_modules/angular-animate/angular-animate.js',
+      'node_modules/angular-jwt/dist/angular-jwt.js',
       'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js'
     ],
     bootstrap: [

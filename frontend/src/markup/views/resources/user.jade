@@ -1,0 +1,33 @@
+mixin created-conferences
+  a.label.label-default(
+    ng-repeat-start = "conference in ctrl.user.created_conferences"
+    ng-href         = "#!/conference/{{ conference.id }}"
+  ) {{ conference.title }}
+  | 
+  span(ng-repeat-end)
+
+mixin organized-conferences
+  a.label.label-default(
+    ng-repeat-start = "conference in ctrl.user.organized_conferences"
+    ng-href         = "#!/conference/{{ conference.id }}"
+  ) {{ conference.title }}
+  | 
+  span(ng-repeat-end)
+
+mixin moderated-topics
+  a.label.label-default(
+    ng-repeat-start = "topic in ctrl.user.moderated_topics"
+    ng-href         = "#!/topic/{{ topic.id }}"
+  ) {{ topic.title }}
+  | 
+  span(ng-repeat-end)
+
+
+
+.panel.panel-default
+  .panel-heading {{ ctrl.getHeader() }}
+  .panel-body
+    span(ng-show = "ctrl.user.created_conferences.length") Created conferences: #[+created-conferences] #[br]
+    span(ng-show = "ctrl.user.organized_conferences.length") Organized conferences: #[+organized-conferences] #[br]
+    span(ng-show = "ctrl.user.moderated_topics.length") Moderated topics: #[+moderated-topics] #[br]
+    span Total attended conferences: {{ ctrl.user.attended_conferences.length }}

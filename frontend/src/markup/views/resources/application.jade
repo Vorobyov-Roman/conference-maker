@@ -1,0 +1,18 @@
+mixin sender
+  a.label.label-info(
+    ng-href = "#!/user/{{ ctrl.application.sender.id }}"
+  ) {{ ctrl.application.sender.name }}
+
+mixin topic-link
+  a.label.label-default(
+    ng-href = "#!/topic/{{ ctrl.application.topic.id }}"
+  ) {{ ctrl.application.topic.title }}
+
+
+
+.panel.panel-default
+  .panel-heading {{ ctrl.application.title }}
+  .panel-body {{ ctrl.application.description }}
+  .panel-footer
+    | This application is sent by #[+sender]
+    | This is an application for the #[+topic-link]

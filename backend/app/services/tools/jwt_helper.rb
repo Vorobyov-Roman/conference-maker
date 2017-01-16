@@ -5,11 +5,11 @@ class Tools::JWTHelper
   end
 
   def encode user
-    JWT.encode @serializer.to_json(user), secret
+    JWT.encode @serializer.new(user).as_json, secret
   end
 
   def decode token
-    JWT.decode token, secret
+    JWT.decode(token, secret)[0]
   end
 
 private

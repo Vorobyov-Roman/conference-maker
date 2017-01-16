@@ -1,0 +1,10 @@
+mixin application-link
+  a.label.label-default(
+    ng-href = "#!/application/{{ ctrl.review.application.id }}"
+  ) {{ ctrl.review.application.title }}
+
+
+
+.panel.panel-default
+  .panel-heading This is the review for the #[+application-link] application.
+  .panel-body {{ ctrl.review.comment }}

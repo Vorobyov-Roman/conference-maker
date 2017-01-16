@@ -5,7 +5,7 @@ class AuthController < ApplicationController
   def register
     user = user_manager.create_user user_data
 
-    render json: serializer.to_json(user), status: :created
+    render json: user, status: :created
   end
 
   def login

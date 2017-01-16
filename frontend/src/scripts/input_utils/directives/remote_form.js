@@ -10,14 +10,15 @@ angular.module('inputUtils').directive('remoteForm', [
       this.validate = function(field, value) {
         data[field] = value;
 
-        return validation.validateUser(data, field);
+        return validation.validate($scope.target, data, field);
       }
 
     }
 
     return {
       scope: {
-        data: '&remoteForm'
+        data:   '&remoteForm',
+        target: '@remoteFormFor'
       },
       controller: ['$scope', 'validation', ctrl]
     }

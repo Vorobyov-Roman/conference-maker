@@ -1,7 +1,7 @@
 mixin action-button(action)
   button.btn.btn-default.navbar-btn(
     type     = "button"
-    ng-click = action
+    ng-click = "ctrl.#{action}()"
   )
     block
 
@@ -12,6 +12,8 @@ mixin modal-button(target)
     data-target = target
   )
     block
+
+
 
 nav.navbar.navbar-default(ng-controller = "NavbarController as ctrl")
   .container-fluid
@@ -30,5 +32,6 @@ nav.navbar.navbar-default(ng-controller = "NavbarController as ctrl")
       ul.nav.navbar-nav.navbar-right(ng-cloak)
         li(ng-hide = "ctrl.isLoggedIn()"): +modal-button("#signup") Sign Up
         li(ng-hide = "ctrl.isLoggedIn()"): +modal-button("#login") Log In
-        li(ng-show = "ctrl.isLoggedIn()"): +action-button("ctrl.logOut()") Log Out
-        li(ng-show = "ctrl.isLoggedIn()"): +action-button("ctrl.goToProfile()") Your Profile
+        li(ng-show = "ctrl.isLoggedIn()"): +modal-button("#new-conference") New Conference
+        li(ng-show = "ctrl.isLoggedIn()"): +action-button("logOut") Log Out
+        li(ng-show = "ctrl.isLoggedIn()"): +action-button("goToProfile") Your Profile

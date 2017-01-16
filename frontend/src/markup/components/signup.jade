@@ -10,8 +10,9 @@ block vars
 
 block body
   form(
-    name        = "form"
-    remote-form = "ctrl.data"
+    name            = "form"
+    remote-form     = "ctrl.data"
+    remote-form-for = "user"
   )
     +validated-input("text",     "Name",     "name")
     +validated-input("text",     "Email",    "email")

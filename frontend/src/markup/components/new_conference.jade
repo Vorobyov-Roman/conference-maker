@@ -1,0 +1,18 @@
+extends _modal
+
+include _input
+
+block vars
+  -
+    modalId = "new-conference"
+    ctrl    = "NewConferenceController as ctrl"
+    title   = "New Conference"
+
+block body
+  form(
+    name            = "form"
+    remote-form     = "ctrl.data"
+    remote-form-for = "conference"
+  )
+    +validated-input("text", "Title",       "title")
+    +validated-input("text", "Description", "description")

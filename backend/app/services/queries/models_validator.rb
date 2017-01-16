@@ -4,8 +4,8 @@ class Queries::ModelsValidator
     @factory = factory
   end
 
-  def valid_user? *params
-    messages = check :user, *params
+  def valid? model, *params
+    messages = check model, *params
     messages == {}
   end
 

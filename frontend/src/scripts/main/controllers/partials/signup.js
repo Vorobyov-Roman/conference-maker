@@ -2,9 +2,10 @@
 
 angular.module('main').controller('SignupController', [
   '$scope',
+  '$log',
   'authentication',
   'responseResolver',
-  function($scope, authentication, responseResolver) {
+  function($scope, $log, authentication, responseResolver) {
 
     var self = this;
     var modal = $('#signup');
@@ -12,8 +13,8 @@ angular.module('main').controller('SignupController', [
     this.data = {};
 
     this.submit = function() {
-      function onSuccess(data) {
-        self.message = null;
+      function onSuccess(response) {
+        delete self.message;
 
         modal.modal('hide');
       }
@@ -25,6 +26,8 @@ angular.module('main').controller('SignupController', [
             $scope.$broadcast('FORCE_VALIDATION', err.data.errors);
           })
           .default(function() {
+            $log.error(err);
+
             self.message = "Request to the server failed.";
           });
 

@@ -1,0 +1,32 @@
+mixin creator
+  a.label.label-info(
+    ng-href = "#!/user/{{ ctrl.conference.creator.id }}"
+  ) {{ ctrl.conference.creator.name }}
+
+mixin organizers
+  a.label.label-info(
+    ng-repeat-start = "organizer in ctrl.conference.organizers"
+    ng-href         = "#!/user/{{ organizer.id }}"
+  ) {{ organizer.name }}
+  | 
+  span(ng-repeat-end)
+
+mixin topics
+  a.label.label-default(
+    ng-repeat-start = "topic in ctrl.conference.topics"
+    ng-href         = "#!/topic/{{ topic.id }}"
+  ) {{ topic.title }}
+  | 
+  span(ng-repeat-end)
+
+
+
+.panel.panel-default
+  .panel-heading {{ ctrl.conference.title }}
+  .panel-body {{ ctrl.conference.description }}
+  .panel-footer
+    | This conference is created by #[+creator] #[br]
+    | This conference is organized by #[+organizers] #[br]
+    | Check out its topics: #[+topics] #[br]
+    | Total attendees so far: {{ ctrl.getAttendeesCount() }}
+

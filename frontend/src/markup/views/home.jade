@@ -1,1 +1,4 @@
-h1 Home page
+#all-conferences
+  .panel.panel-default(ng-repeat = "conference in ctrl.conferences")
+    .panel-heading(ng-click = "ctrl.goToConference(conference.id)") {{ conference.title }}
+    .panel-body {{ conference.description }}

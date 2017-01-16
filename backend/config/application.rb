@@ -37,7 +37,7 @@ module Backend
     end
 
     # Load factories
-    FactoryGirl.find_definitions
+    FactoryGirl.find_definitions unless Rails.env.downcase == "production"
 
   end
 

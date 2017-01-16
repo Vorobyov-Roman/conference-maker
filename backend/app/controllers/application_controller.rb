@@ -4,24 +4,20 @@ class ApplicationController < ActionController::API
 
 protected
 
-  def serializer
-    Tools::Serializer.new
-  end
-
   def factory strategy = :create!
-    Factories::ModelsFactory.new strategy
+    @factory ||= Factories::ModelsFactory.new strategy
   end
 
   def managers_provider
-    Factories::ManagersProvider.new factory
+    @managers_provider ||= Factories::ManagersProvider.new factory
   end
 
   def jwt_wrapper
-    Tools::JWTHelper.new serializer
+    @jwt_wrapper ||= Tools::JWTHelper.new UserSerializer
   end
 
   def validator
-    Queries::ModelsValidator.new factory(:new)
+    @validator ||= Queries::ModelsValidator.new factory(:new)
   end
 
 end

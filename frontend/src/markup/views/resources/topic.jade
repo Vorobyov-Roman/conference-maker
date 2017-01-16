@@ -1,0 +1,21 @@
+mixin conference-link
+  a.label.label-default(
+    ng-href = "#!/conference/{{ ctrl.topic.conference.id }}"
+  ) {{ ctrl.topic.conference.title }}
+
+mixin moderators
+  a.label.label-info(
+    ng-repeat-start = "moderator in ctrl.topic.moderators"
+    ng-href         = "#!/user/{{ moderator.id }}"
+  ) {{ moderator.name }}
+  | 
+  span(ng-repeat-end)
+
+
+
+.panel.panel-default
+  .panel-heading {{ ctrl.topic.title }}
+  .panel-body {{ ctrl.topic.description }}
+  .panel-footer
+    | This is one of the topics of the #[+conference-link] conference #[br]
+    | This topic is moderated by #[+moderators]

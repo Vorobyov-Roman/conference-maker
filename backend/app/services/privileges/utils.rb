@@ -58,7 +58,7 @@ private
   end
 
   def self.declare_manager_wrapper name
-    define_method(:"#{name}_manager") do
+    define_method :"#{name}_manager" do
       @managers_provider.provide name
     end
   end

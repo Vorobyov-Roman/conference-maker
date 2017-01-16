@@ -23,7 +23,7 @@ gem 'rack-cors'
 # JWT library
 gem 'jwt'
 
-group :development, :test do
+group :development, :test, :demo do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
 
@@ -34,8 +34,8 @@ group :development, :test do
   gem 'factory_girl'
 end
 
-group :development do
-end
+# Serializer
+gem 'active_model_serializers', '~> 0.10.0'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

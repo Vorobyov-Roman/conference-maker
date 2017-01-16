@@ -60,7 +60,7 @@ angular.module('inputUtils').directive('remote', [
         }
 
         return async.execute(function(def) {
-          function onSuccess(data) {
+          function onSuccess(response) {
             anyPendingRequests = false;
             def.resolve();
           }

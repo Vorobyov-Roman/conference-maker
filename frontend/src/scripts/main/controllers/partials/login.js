@@ -2,15 +2,16 @@
 
 angular.module('main').controller('LoginController', [
   '$scope',
+  '$log',
   'authentication',
   'responseResolver',
-  function($scope, authentication, responseResolver) {
+  function($scope, $log, authentication, responseResolver) {
 
     var self = this;
     var modal = $('#login');
 
     this.submit = function() {
-      function onSuccess(data) {
+      function onSuccess(response) {
         self.message = null;
 
         modal.modal('hide');
@@ -22,6 +23,8 @@ angular.module('main').controller('LoginController', [
             self.message = "Invalid login or password.";
           })
           .default(function() {
+            $log.error(err);
+
             self.message = "Request to the server failed.";
           });
 

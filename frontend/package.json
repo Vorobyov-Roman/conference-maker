@@ -12,6 +12,7 @@
     "angular": "^1.6.1",
     "angular-animate": "^1.6.1",
     "angular-cookies": "^1.6.1",
+    "angular-jwt": "^0.1.8",
     "angular-route": "^1.6.1",
     "angular-ui-bootstrap": "^2.4.0",
     "bootstrap": "^3.3.7",

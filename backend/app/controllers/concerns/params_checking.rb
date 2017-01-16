@@ -6,8 +6,24 @@ module ParamsChecking
 
   included do
 
+    def application_data
+      params.fetch(:data, {}).permit :title, :description
+    end
+
+    def conference_data
+      params.fetch(:data, {}).permit :title, :description
+    end
+
+    def review_data
+      params.fetch(:data, {}).permit :status, :comment
+    end
+
+    def topic_data
+      params.fetch(:data, {}).permit :title, :description
+    end
+
     def user_data
-      params.fetch(:userdata, {}).permit :name, :email, :login, :password
+      params.fetch(:data, {}).permit :name, :email, :login, :password
     end
 
   end

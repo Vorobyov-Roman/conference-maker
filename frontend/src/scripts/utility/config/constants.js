@@ -2,5 +2,6 @@
 
 angular.module('utility')
   .constant('HTTP_STATUSES', {
-    'BAD_REQUEST': 400
+    'BAD_REQUEST':  400,
+    'UNAUTHORIZED': 401
   });
