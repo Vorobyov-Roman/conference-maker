@@ -35,8 +35,8 @@ describe 'backend.validation', ->
 
     it '1.1 should send correct request when validation user', ->
       $httpBackend.expectPOST fakeAddress + '/validate/user',
-        userdata: null
+        data: null
         field: null
 
-      service.validateUser null, null
+      service.validate 'user', null, null
       $httpBackend.flush()

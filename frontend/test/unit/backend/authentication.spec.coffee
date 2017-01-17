@@ -65,7 +65,7 @@ describe 'backend.authentication', ->
   describe '1 Logging in', ->
 
     it '1.1 should send correct request', ->
-      $httpBackend.expectPOST fakeAddress + '/login', userdata: null
+      $httpBackend.expectPOST fakeAddress + '/login', data: null
 
       service.logIn null
       $httpBackend.flush()
